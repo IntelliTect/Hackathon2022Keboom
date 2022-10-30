@@ -51,6 +51,8 @@ jobs:
         with:
           name: KeboomApp
 
+      - run: ls
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -58,7 +60,7 @@ jobs:
           app-name: 'Keboom'
           # slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
-          package: ./KeboomApp
+          package: .
 
 
       # - name: Deploy to Azure Web App
