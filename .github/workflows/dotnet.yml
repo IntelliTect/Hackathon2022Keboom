@@ -43,7 +43,7 @@ jobs:
     needs: build
     environment:
       name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-static-site.outputs.static_web_app_url }}
 
     steps:
       - name: Download artifact from build job
@@ -51,9 +51,8 @@ jobs:
         with:
           name: KeboomApp
 
-      - run: ls
-
       - name: Deploy Static App
+        id: deploy-static-site
         uses: Azure/static-web-apps-deploy@v1
         with:
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
