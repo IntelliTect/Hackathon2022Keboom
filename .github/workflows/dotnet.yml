@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: KeboomApp
-        path: ${{env.DOTNET_ROOT}}/KeboomPublish
+        path: ${{env.DOTNET_ROOT}}/KeboomPublish/wwwroot
     
   deploy:
     if: ${{ github.event_name != 'pull_request' }}
