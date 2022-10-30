@@ -35,9 +35,10 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: KeboomApp
-        path: ${{env.DOTNET_ROOT}}/KeboomPublish  
+        path: ${{env.DOTNET_ROOT}}/KeboomPublish
     
   deploy:
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     needs: build
     environment:
