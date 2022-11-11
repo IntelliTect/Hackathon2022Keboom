@@ -3,19 +3,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33020.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keboom.Server", "Keboom\Server\Keboom.Server.csproj", "{F2E203B9-2979-4BCF-BE57-DD742AC3A1C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keboom.Server", "Keboom\Server\Keboom.Server.csproj", "{F2E203B9-2979-4BCF-BE57-DD742AC3A1C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keboom.Client", "Keboom\Client\Keboom.Client.csproj", "{CA1666FD-F1EE-4420-B27C-EE61059B0C5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keboom.Client", "Keboom\Client\Keboom.Client.csproj", "{CA1666FD-F1EE-4420-B27C-EE61059B0C5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keboom.Shared", "Keboom\Shared\Keboom.Shared.csproj", "{F91C7666-9510-4D3F-85AF-8F9C72D3B2EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keboom.Shared", "Keboom\Shared\Keboom.Shared.csproj", "{F91C7666-9510-4D3F-85AF-8F9C72D3B2EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FA4F54E2-D417-483D-9DBD-84846493A99A}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{240E667A-B6D1-4511-80B3-BC9FE4991D22}"
 	ProjectSection(SolutionItems) = preProject
 		.github\dependabot.yml = .github\dependabot.yml
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4CD9F0E7-7D17-40E4-A02A-99358AD69BDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keboom.Client.Tests", "Keboom.Client.Tests\Keboom.Client.Tests.csproj", "{6B306EF1-386F-4910-BD35-93ADE8EA37DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Keboom.Server.Tests", "Keboom.Server.Tests\Keboom.Server.Tests.csproj", "{773CD4AE-A903-4A2D-9560-3304CC8A4771}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +44,22 @@ Global
 		{F91C7666-9510-4D3F-85AF-8F9C72D3B2EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F91C7666-9510-4D3F-85AF-8F9C72D3B2EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F91C7666-9510-4D3F-85AF-8F9C72D3B2EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B306EF1-386F-4910-BD35-93ADE8EA37DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B306EF1-386F-4910-BD35-93ADE8EA37DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B306EF1-386F-4910-BD35-93ADE8EA37DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B306EF1-386F-4910-BD35-93ADE8EA37DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{773CD4AE-A903-4A2D-9560-3304CC8A4771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{773CD4AE-A903-4A2D-9560-3304CC8A4771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{773CD4AE-A903-4A2D-9560-3304CC8A4771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{773CD4AE-A903-4A2D-9560-3304CC8A4771}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{240E667A-B6D1-4511-80B3-BC9FE4991D22} = {FA4F54E2-D417-483D-9DBD-84846493A99A}
+		{6B306EF1-386F-4910-BD35-93ADE8EA37DB} = {4CD9F0E7-7D17-40E4-A02A-99358AD69BDE}
+		{773CD4AE-A903-4A2D-9560-3304CC8A4771} = {4CD9F0E7-7D17-40E4-A02A-99358AD69BDE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8EF5DE34-E238-44FE-8951-8E0DDA69537D}
