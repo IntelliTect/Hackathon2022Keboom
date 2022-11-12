@@ -59,7 +59,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'Keboom.Server'
+          app-name: 'Keboom'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile }}
           package: .
