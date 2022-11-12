@@ -19,11 +19,11 @@ public class GameState
         }
         set
         {
-            CurrentPlayerId = value.Id;
+            CurrentPlayerId = value?.Id;
         }
     }
 
-    public string CurrentPlayerId { get; set; }
+    public string? CurrentPlayerId { get; set; }
 
     public Player GetPlayer(string playerId)
         => Players.FirstOrDefault(p => p.Id == playerId)
