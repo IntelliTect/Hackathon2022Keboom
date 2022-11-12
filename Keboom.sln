@@ -32,6 +32,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keboom.Client.Tests", "Kebo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keboom.Server.Tests", "Keboom.Tests\Keboom.Server.Tests\Keboom.Server.Tests.csproj", "{85C0445C-C7B0-4E03-B2CC-043211A3DA72}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keboom.Shared.Tests", "Keboom.Shared.Tests\Keboom.Shared.Tests.csproj", "{9BD86904-1D20-4038-AD0B-677520652949}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F91C7666-9510-4D3F-85AF-8F9C72D3B2EF} = {F91C7666-9510-4D3F-85AF-8F9C72D3B2EF}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +63,10 @@ Global
 		{85C0445C-C7B0-4E03-B2CC-043211A3DA72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85C0445C-C7B0-4E03-B2CC-043211A3DA72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85C0445C-C7B0-4E03-B2CC-043211A3DA72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD86904-1D20-4038-AD0B-677520652949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD86904-1D20-4038-AD0B-677520652949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD86904-1D20-4038-AD0B-677520652949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD86904-1D20-4038-AD0B-677520652949}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +75,7 @@ Global
 		{240E667A-B6D1-4511-80B3-BC9FE4991D22} = {FA4F54E2-D417-483D-9DBD-84846493A99A}
 		{EFD61712-3896-4302-AEBC-8D8D2D6D0697} = {4CD9F0E7-7D17-40E4-A02A-99358AD69BDE}
 		{85C0445C-C7B0-4E03-B2CC-043211A3DA72} = {4CD9F0E7-7D17-40E4-A02A-99358AD69BDE}
+		{9BD86904-1D20-4038-AD0B-677520652949} = {4CD9F0E7-7D17-40E4-A02A-99358AD69BDE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8EF5DE34-E238-44FE-8951-8E0DDA69537D}
