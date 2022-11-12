@@ -12,7 +12,7 @@ public class GameFlowerTests
 
         var gameState = CreateGameState(true);
 
-        var gameFlower = new GameFlower(gameState, player);
+        var gameFlower = new GameEngine(gameState, player);
 
         gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
@@ -31,7 +31,7 @@ public class GameFlowerTests
 
         var gameState = CreateGameState(false);
 
-        var gameFlower = new GameFlower(gameState, player);
+        var gameFlower = new GameEngine(gameState, player);
 
         gameState.Board![0, 0].ClaimedByPlayer = player2Id;
 
@@ -50,7 +50,7 @@ public class GameFlowerTests
 
         var gameState = CreateGameState(true);
 
-        var gameFlower = new GameFlower(gameState, player);
+        var gameFlower = new GameEngine(gameState, player);
 
         gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
@@ -67,7 +67,7 @@ public class GameFlowerTests
 
         var gameState = CreateGameState(true);
 
-        var gameFlower = new GameFlower(gameState, player);
+        var gameFlower = new GameEngine(gameState, player);
 
         var player2Id = Guid.NewGuid().ToString();
 
@@ -88,7 +88,7 @@ public class GameFlowerTests
 
         var gameState = CreateGameState(true);
 
-        var gameFlower = new GameFlower(gameState, player);
+        var gameFlower = new GameEngine(gameState, player);
 
         var canContinue = gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
@@ -105,7 +105,7 @@ public class GameFlowerTests
 
         var gameState = CreateGameState(false);
 
-        var gameFlower = new GameFlower(gameState, player);
+        var gameFlower = new GameEngine(gameState, player);
 
         var canContinue = gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
@@ -125,7 +125,7 @@ public class GameFlowerTests
         gameState.Board[2, 1].HasMine = true;
         gameState.Board.SetAdjacentCounts();
 
-        var gameFlower = new GameFlower(gameState, player);
+        var gameFlower = new GameEngine(gameState, player);
 
         gameFlower.TriggerSpace(gameState.Board[0, 0]);
 

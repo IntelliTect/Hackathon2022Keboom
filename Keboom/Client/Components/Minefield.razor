@@ -44,7 +44,7 @@
         if (GameState is { } gameState &&
             gameState.CurrentPlayer is { } currentPlayer)
         {
-            GameFlower flower = new(gameState, currentPlayer);
+            GameEngine flower = new(gameState, currentPlayer);
             if (flower.TriggerSpace(space))
             {
                 StateHasChanged();

@@ -1,11 +1,11 @@
 ﻿namespace Keboom.Shared;
 
-public class GameFlower
+public class GameEngine
 {
     public GameState GameState { get; }
     public Player Player { get; }
 
-    public GameFlower(GameState gameState, Player player)
+    public GameEngine(GameState gameState, Player player)
     {
         GameState = gameState;
         Player = player;
