@@ -48,16 +48,9 @@ public class GameBoardViewModel : ViewModelBase
 
         using var response2 = await HttpClient.PostAsJsonAsync("/game", joinGameRequest2);
 
-        GameState? gameState = await response2.Content.ReadFromJsonAsync<GameState>();
-
-        GameStateUpdated(gameState);
+        GameState = await response2.Content.ReadFromJsonAsync<GameState>();
 
         await base.OnInitializedAsync();
-    }
-
-    private void GameStateUpdated(GameState newGameState)
-    {
-        GameState= newGameState;
     }
 
     private void OnGameStateUpdated(object? sender, EventArgs<GameState> e) => throw new NotImplementedException();
