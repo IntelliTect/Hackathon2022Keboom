@@ -1,7 +1,7 @@
 ﻿@using Keboom.Shared
 <h1>Minefield</h1>
 
-<div style="display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr); gap: 10px; padding: 5px ">
+<div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
 @for(int row = 1; row <= GameState?.Board?.Height; row++) {
     @for(int col = 1; col <= GameState?.Board?.Width; col++) {
         <button>
