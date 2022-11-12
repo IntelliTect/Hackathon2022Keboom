@@ -5,6 +5,6 @@ namespace Keboom.Client.Components
     public class LayoutBase : LayoutComponentBase
     {
         [Parameter]
-        public string? PageTitle { get; set; } = "Minesweeper";
+        public string? PageTitle { get; set; } = "KeBOOM";
     }
 }
