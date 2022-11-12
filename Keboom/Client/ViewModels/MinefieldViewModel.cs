@@ -6,6 +6,8 @@ public partial class MinefieldViewModel : ViewModelBase
     [ObservableProperty]
     private GameState? _gameState;
 
+    public Action? DetonateMines { get; set; }
+
     [RelayCommand]
     private void OpenCell(BoardSpace space)
     {
@@ -15,6 +17,10 @@ public partial class MinefieldViewModel : ViewModelBase
             GameEngine gameEngine = new(gameState, currentPlayer);
             if (gameEngine.TriggerSpace(space))
             {
+                if (gameState.GameStatus == GameStatus.GameOver && DetonateMines is {})
+                {
+                    DetonateMines();
+                }
                 NotifyStateChanged();
             }
             else

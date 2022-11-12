@@ -32,16 +32,6 @@
                     }
                 }
             }
-
-            @* @if (ViewModel.GameStatus == GameStatus.GameOver) *@
-            @* { *@
-            @*     Navigation.GetUriWithQueryParameters("/GameOver", *@
-            @*         new Dictionary<string, object?>() *@
-            @*         { *@
-            @*             { "Name", GameState!.CurrentPlayer!.Name }, *@
-            @*             { "Score", GameState.CurrentPlayer.Score } *@
-            @*         }); *@
-            @* } *@
         </div>
     </div>
 }

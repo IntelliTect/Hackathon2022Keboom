@@ -2,8 +2,8 @@
 {
     public enum GameStatus
     {
+        WaitingForPlayersToJoin,
         GameOver,
-        InProgress,
-        WaitingForPlayers
+        InProgress
     }
 }

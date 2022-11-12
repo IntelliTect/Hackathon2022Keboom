@@ -21,6 +21,7 @@ public class GameStore : IGameStore
             {
                 var existingGame = Games[joinRequest.GameName];
 
+                existingGame.GameStatus = GameStatus.InProgress;
                 AddPlayer(existingGame, new Player
                 {
                     Id = joinRequest.PlayerId,
@@ -34,7 +35,8 @@ public class GameStore : IGameStore
             var newGame = new GameState
             {
                 Id = joinRequest.GameName,
-                Board = new Board(joinRequest.BoardWidth, joinRequest.BoardHeight, joinRequest.NumberOfMines)
+                Board = new Board(joinRequest.BoardWidth, joinRequest.BoardHeight, joinRequest.NumberOfMines),
+                GameStatus = GameStatus.WaitingForPlayersToJoin
             };
 
             AddPlayer(newGame, new Player

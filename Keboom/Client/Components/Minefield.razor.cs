@@ -12,6 +12,22 @@ public partial class Minefield
         set => ViewModel.GameState = value;
     }
 
+    protected override void OnInitialized()
+    {
+        ViewModel.DetonateMines = EndGame;
+        base.OnInitialized();
+    }
+
+    private void EndGame()
+    {
+        var uri = Navigation.GetUriWithQueryParameters("/GameOver",
+            new Dictionary<string, object?>()
+            {
+                { "Name", GameState!.CurrentPlayer!.Name },
+                { "Score", GameState.CurrentPlayer.Score }
+            });
+        Navigation.NavigateTo(uri);
+    }
     private static string GetCellColor(int num)
     {
         return num switch
@@ -27,7 +43,7 @@ public partial class Minefield
             _ => "Silver",
         };
     }
-    
+
     private string GetPlayerFlag(string playerId)
     {
         if (ViewModel?.GameState is { } gameState && playerId is not null)
