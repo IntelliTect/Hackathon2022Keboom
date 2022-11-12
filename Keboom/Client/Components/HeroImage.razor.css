@@ -3,6 +3,11 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    background-image: url("keboom.png");
+    height: 90vh;
+    background-size: contain;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat;
 }
 
     .root-content > img {
@@ -11,5 +16,5 @@
     }
 
 .window-body {
-    height: 80vh;
+    height: 90vh;
 }

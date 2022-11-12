@@ -4,11 +4,13 @@
 
 <HeroImage>
     <Content>
+        <div style="height: 20vh;"></div>
         <div class="window" style="width: 300px">
             <div class="title-bar">
                 <div class="title-bar-text">Game Options</div>
             </div>
             <div class="window-body">
+
                 @if (ViewModel.JoinButtonVisible)
                 {
                     <div class="field-row-stacked" style="width: 200px">
@@ -20,7 +22,7 @@
                     <label for="text18">Your Name</label>
                     <InputText @bind-Value="ViewModel.PlayerName"></InputText>
                 </div>
-                <div class="field-row-stacked" style="width: 200px">
+                <div class="field-row-stacked" style="width: 200px;">
                     @if (ViewModel.CreateButtonVisible)
                     {
                         <button class="btn btn-primary" visible="@ViewModel.CreateButtonVisible" @onclick="ViewModel.NavigateToGameBoardAndCreateGame">
@@ -34,7 +36,9 @@
                         </button>
                     }
                 </div>
+
             </div>
         </div>
+
     </Content>
 </HeroImage>
