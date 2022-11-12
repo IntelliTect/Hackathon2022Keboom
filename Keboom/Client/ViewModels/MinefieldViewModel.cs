@@ -1,7 +1,4 @@
-﻿
-using Keboom.Shared;
-
-namespace Keboom.Client.ViewModels;
+﻿namespace Keboom.Client.ViewModels;
 
 public partial class MinefieldViewModel : ViewModelBase
 {

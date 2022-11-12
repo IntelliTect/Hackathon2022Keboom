@@ -20,7 +20,7 @@
 
     private void NewGame()
     {
-        Navigation.NavigateTo("/GameBoard");
+        Navigation.NavigateTo($"/GameBoard?playerName={Name}");
     }
     private void QuitGame()
     {
