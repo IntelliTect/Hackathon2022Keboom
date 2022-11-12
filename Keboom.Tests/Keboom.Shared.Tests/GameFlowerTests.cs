@@ -113,7 +113,7 @@ public class GameFlowerTests
     }
 
     [Fact]
-    public void TriggerSapce_UnclaimedZero_ClaimsAdjacentNoMines()
+    public void TriggerSapce_UnclaimedZero_OpensAdjacentNonZeros()
     {
         var player = new Player
         {
@@ -121,23 +121,28 @@ public class GameFlowerTests
         };
 
         var gameState = CreateGameState(false, 3);
-        gameState.Board![1, 1].HasMine = true;
+        gameState.Board![1, 2].HasMine = true;
+        gameState.Board[2, 1].HasMine = true;
+        gameState.Board.SetAdjacentCounts();
 
         var gameFlower = new GameFlower(gameState, player);
 
-        gameFlower.TriggerSpace(gameState.Board![0, 0]);
+        gameFlower.TriggerSpace(gameState.Board[0, 0]);
 
         Assert.Equal(player.Id, gameState.Board[0, 0].ClaimedByPlayer);
         Assert.Equal(player.Id, gameState.Board[1, 0].ClaimedByPlayer);
+        Assert.Null(gameState.Board[2, 0].ClaimedByPlayer);
+
         Assert.Equal(player.Id, gameState.Board[0, 1].ClaimedByPlayer);
-        Assert.Equal(player.Id, gameState.Board[1, 2].ClaimedByPlayer);
-        Assert.Equal(player.Id, gameState.Board[2, 0].ClaimedByPlayer);
-        Assert.Equal(player.Id, gameState.Board[2, 1].ClaimedByPlayer);
-        Assert.Equal(player.Id, gameState.Board[2, 2].ClaimedByPlayer);
-        Assert.Null(gameState.Board[1, 1].ClaimedByPlayer);
+        Assert.Equal(player.Id, gameState.Board[1, 1].ClaimedByPlayer);
+        Assert.Null(gameState.Board[2, 1].ClaimedByPlayer);
+
+        Assert.Null(gameState.Board[0, 2].ClaimedByPlayer);
+        Assert.Null(gameState.Board[1, 2].ClaimedByPlayer);
+        Assert.Null(gameState.Board[2, 2].ClaimedByPlayer);
     }
 
-    private GameState CreateGameState(bool hasMines, int size = 2)
+    private static GameState CreateGameState(bool hasMines, int size = 2)
     {
         var gameState = new GameState();
         var board = new Board(size, size);
@@ -149,7 +154,7 @@ public class GameFlowerTests
                 board[x, y].HasMine = hasMines;
             }
         }
-
+        board.SetAdjacentCounts();
         gameState.Board = board;
 
         return gameState;

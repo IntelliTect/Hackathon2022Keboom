@@ -7,7 +7,7 @@ public static class BoardGenerator
         var board = new Board(width, height);
 
         SetMines(board, numberOfMines);
-        SetAdjacentCounts(board);
+        board.SetAdjacentCounts();
 
         return board;
     }
@@ -28,17 +28,6 @@ public static class BoardGenerator
                     board[x, y].HasMine = true;
                     break;
                 }
-            }
-        }
-    }
-
-    private static void SetAdjacentCounts(Board board)
-    {
-        for(var x = 0; x < board.Width; x++)
-        {
-            for(var y = 0; y < board.Height; y++)
-            {
-                board[x, y].AdjacentMines = board.GetAdjacentCount(x, y);
             }
         }
     }

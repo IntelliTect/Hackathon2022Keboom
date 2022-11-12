@@ -73,7 +73,16 @@ public class Board
     }
 
     public int GetAdjacentCount(int x, int y)
+        => GetAdjacent(x, y).Count(x => x.HasMine);
+
+    public void SetAdjacentCounts()
     {
-        return GetAdjacent(x, y).Count(x => x.HasMine);
+        for (var x = 0; x < Width; x++)
+        {
+            for (var y = 0; y < Height; y++)
+            {
+                this[x, y].AdjacentMines = GetAdjacentCount(x, y);
+            }
+        }
     }
 }

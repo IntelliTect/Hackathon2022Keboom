@@ -28,7 +28,10 @@ public class GameFlower
 
         if (boardSpace.AdjacentMines == 0)
         {
-            OpenBlanks(boardSpace);
+            foreach (var adjacentSpace in GameState.Board!.GetAdjacent(boardSpace.X, boardSpace.Y))
+            {
+                TriggerSpace(adjacentSpace);
+            }
         }
 
         return false;
