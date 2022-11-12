@@ -1,7 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
-using Keboom.Shared;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Keboom.Client.ViewModels;
 
