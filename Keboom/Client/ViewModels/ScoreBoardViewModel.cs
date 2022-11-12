@@ -29,14 +29,12 @@ public partial class ScoreBoardViewModel : ViewModelBase
 
     private void CurrentPlayerChanged(object? sender, EventArgs e)
     {
-        //TODO Not sure the best way to have the VM trigger a render
-        OnPropertyChanged(nameof(GameState));
+        NotifyStateChanged();
     }
 
     private void ScoreChanged(object? sender, EventArgs e)
     {
-        //TODO Not sure the best way to have the VM trigger a render
-        OnPropertyChanged(nameof(GameState));
+        NotifyStateChanged();
     }
 
     public bool GameHasPlayers => GameState is { } gameState &&

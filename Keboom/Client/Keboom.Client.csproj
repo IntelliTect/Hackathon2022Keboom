@@ -18,5 +18,6 @@
     <Using Include="CommunityToolkit.Mvvm.ComponentModel"/>
     <Using Include="CommunityToolkit.Mvvm.Input" />
     <Using Include="Keboom.Shared" />
+    <Using Include="System.ComponentModel" />
   </ItemGroup>
 </Project>

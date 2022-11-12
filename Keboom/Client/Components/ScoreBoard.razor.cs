@@ -1,5 +1,4 @@
-﻿using Keboom.Shared;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Keboom.Client.Components;
 

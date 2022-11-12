@@ -10,23 +10,20 @@
     {
         <h4>Players:</h4>
         <dl>
-            @if (ViewModel?.GameState?.Players is not null)
+            @if (ViewModel.GameState?.Players is not null)
             {
-                foreach (Player? player in ViewModel.GameState.Players)
+                foreach (Player player in ViewModel.GameState.Players)
                 {
-                    if (player is not null)
-                    {
-                        <dt>Name:</dt>
-                        <dd>
-                            @player.Name
-                            @if (player.Id == ViewModel.GameState.CurrentPlayer?.Id)
-                            {
-                                <img src="@PlayerColorConverter.GetFlagImage(player.Color)" alt="current player flag" />
-                            }
-                        </dd>
-                        <dt>Score:</dt>
-                        <dd>@player.Score</dd>
-                    }
+                    <dt>Name:</dt>
+                    <dd>
+                        @player.Name
+                        @if (player.Id == ViewModel.GameState.CurrentPlayer?.Id)
+                        {
+                            <img src="@PlayerColorConverter.GetFlagImage(player.Color)" alt="current player flag" />
+                        }
+                    </dd>
+                    <dt>Score:</dt>
+                    <dd>@player.Score</dd>
                 }
             }
         </dl>

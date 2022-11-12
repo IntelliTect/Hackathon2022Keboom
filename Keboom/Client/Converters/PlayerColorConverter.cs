@@ -1,6 +1,4 @@
-﻿using Keboom.Shared;
-
-namespace Keboom.Client.Converters;
+﻿namespace Keboom.Client.Converters;
 
 public static class PlayerColorConverter
 {

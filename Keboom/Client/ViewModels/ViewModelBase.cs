@@ -7,6 +7,7 @@ public abstract partial class ViewModelBase : ObservableObject, IViewModelBase
         await Loaded().ConfigureAwait(true);
     }
 
+    protected virtual void NotifyStateChanged() => OnPropertyChanged("");
 
     [RelayCommand]
     public virtual async Task Loaded()

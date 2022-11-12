@@ -8,7 +8,7 @@ public class GameEngineTests
         var gameState = CreateGameState(true);
         Player player = gameState.Player1!;
 
-        var gameFlower = new GameEngine(gameState, player);
+        GameEngine gameFlower = new(gameState, player);
 
         gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
@@ -22,7 +22,7 @@ public class GameEngineTests
         Player player = gameState.Player1!;
         var player2Id = gameState.Player2!.Id;
 
-        var gameFlower = new GameEngine(gameState, player);
+        GameEngine gameFlower = new(gameState, player);
 
         gameState.Board![0, 0].ClaimedByPlayer = player2Id;
 
@@ -37,7 +37,7 @@ public class GameEngineTests
         var gameState = CreateGameState(true);
         Player player = gameState.Player1!;
 
-        var gameFlower = new GameEngine(gameState, player);
+        GameEngine gameFlower = new(gameState, player);
 
         gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
@@ -50,7 +50,7 @@ public class GameEngineTests
         var gameState = CreateGameState(true);
         Player player = gameState.Player1!;
 
-        var gameFlower = new GameEngine(gameState, player);
+        GameEngine gameFlower = new(gameState, player);
 
         var player2Id = Guid.NewGuid().ToString();
 
@@ -67,7 +67,7 @@ public class GameEngineTests
         var gameState = CreateGameState(true);
         Player player = gameState.Player1!;
 
-        var gameFlower = new GameEngine(gameState, player);
+        GameEngine gameFlower = new(gameState, player);
 
         var canContinue = gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
@@ -80,7 +80,7 @@ public class GameEngineTests
         var gameState = CreateGameState(false);
         Player player = gameState.Player1!;
 
-        var gameFlower = new GameEngine(gameState, player);
+        GameEngine gameFlower = new(gameState, player);
 
         var canContinue = gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
@@ -96,7 +96,7 @@ public class GameEngineTests
         gameState.Board.SetAdjacentCounts();
         Player player = gameState.Player1!;
 
-        var gameFlower = new GameEngine(gameState, player);
+        GameEngine gameFlower = new(gameState, player);
 
         gameFlower.TriggerSpace(gameState.Board[0, 0]);
 
@@ -163,12 +163,8 @@ public class GameEngineTests
 
     private static GameState CreateGameState(bool hasMines, int size = 2, int numMines = 0)
     {
-        var gameState = new GameState()
-        {
-            Player1 = new() { Id = Guid.NewGuid().ToString(), Name = "Player 1", Score = 0 },
-            Player2 = new() { Id = Guid.NewGuid().ToString(), Name = "Player 2", Score = 0 },
-        };
-        var board = new Board(size, size, numMines);
+        GameState gameState = GameStateBuilder.CreateNewGame();
+        Board board = new(size, size, numMines);
 
         for (var x = 0; x < board.Width; x++)
         {

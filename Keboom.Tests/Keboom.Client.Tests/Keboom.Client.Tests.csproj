@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Keboom\Client\Keboom.Client.csproj" />
     <ProjectReference Include="..\..\Keboom\Shared\Keboom.Shared.csproj" />
+    <ProjectReference Include="..\Keboom.Shared.Tests\Keboom.Shared.Tests.csproj" />
   </ItemGroup>
 
 </Project>

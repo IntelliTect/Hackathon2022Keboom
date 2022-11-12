@@ -1,108 +1,45 @@
-﻿@using Keboom.Client.Converters;
-@using Keboom.Shared
+@inherits ComponentBase<MinefieldViewModel>
 
-<div class="grid">
-    <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
-        @for (int row = 0; row < GameState?.Board?.Height; row++)
-        {
-            @for (int col = 0; col < GameState?.Board?.Width; col++)
+@if (ViewModel?.GameState?.Board is { } board)
+{
+    <div class="grid">
+        <div style="--columns: @board.Width; --rows: @board.Height" class="minefield">
+            @for (int row = 0; row < board.Height; row++)
             {
-                var board = GameState!.Board!;
-                BoardSpace space = board[col, row];
-                if (space.ClaimedByPlayer is null)
+                @for (int col = 0; col < board.Width; col++)
                 {
-                    <button class="cell" @onclick="@(_ => OpenCell(space))">
-                    </button>
-                }
-                else
-                {
-
-                    @if (space.HasMine)
+                    BoardSpace space = board[col, row];
+                    if (space.ClaimedByPlayer is null)
                     {
-                        <button class="cell">
-                            <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag" />
+                        <button class="cell" @onclick="@(_ => ViewModel.OpenCellCommand.Execute(space))">
                         </button>
                     }
                     else
                     {
-						<b class="cell opened" style="color:@GetCellColor(@space.AdjacentMines)">
-                            @space.AdjacentMines
-                        </b>
+
+                        @if (space.HasMine)
+                        {
+                            <button class="cell">
+                                <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag" />
+                            </button>
+                        }
+                        else
+                        {
+                            <b class="cell opened" style="color:@GetCellColor(@space.AdjacentMines)">
+                                @space.AdjacentMines
+                            </b>
+                        }
                     }
                 }
             }
-        }
 
-        @if (GameState?.GameStatus == GameStatus.GameOver)
-        {
-            <div>
-                <p>@GameState.CurrentPlayer!.Name has won!</p>
-                <p>With a score of @GameState.CurrentPlayer.Score</p>
-            </div>
-        }
+            @if (GameState?.GameStatus == GameStatus.GameOver)
+            {
+                <div>
+                    <p>@GameState.CurrentPlayer!.Name has won!</p>
+                    <p>With a score of @GameState.CurrentPlayer.Score</p>
+                </div>
+            }
+        </div>
     </div>
-</div>
-
-@code
-{
-	[CascadingParameter(Name = "GameState")]
-	public GameState? GameState { get; set; }
-
-	private void OpenCell(BoardSpace space)
-	{
-		if (GameState is { } gameState &&
-			gameState.CurrentPlayer is { } currentPlayer)
-		{
-			GameEngine gameEngine = new(gameState, currentPlayer);
-			if (gameEngine.TriggerSpace(space))
-			{
-				StateHasChanged();
-			}
-			else
-			{
-				gameEngine.NextPlayersTurn();
-			}
-		    if (GameState.GameStatus == GameStatus.GameOver)
-		    {
-		        StateHasChanged();
-		    }
-		}
-	}
-
-
-	private string GetPlayerFlag(string playerId)
-	{
-		if (GameState is { } gameState && playerId is not null)
-		{
-			Player player = gameState.GetPlayer(playerId);
-
-			return PlayerColorConverter.GetFlagImage(player.Color);
-		}
-		throw new InvalidOperationException();
-	}
-
-	private string GetCellColor(int num)
-	{
-		switch (num)
-		{
-			case 1:
-				return "DeepSkyBlue";
-			case 2:
-				return "ForestGreen";
-			case 3:
-				return "FireBrick";
-			case 4:
-				return "MidnightBlue";
-			case 5:
-				return "Maroon";
-			case 6:
-				return "Aquamarine";
-			case 7:
-				return "DarkMagenta";
-			case 8:
-				return "DeepPink";
-			default:
-				return "Silver";
-		}
-	}
 }

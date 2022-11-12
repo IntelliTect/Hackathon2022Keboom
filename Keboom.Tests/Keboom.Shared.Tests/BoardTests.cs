@@ -5,7 +5,7 @@ public class BoardTests
     [Fact]
     public void GetAdjacentCount_NoAdjacent_0()
     {
-        var board = new Board(3, 3, 0);
+        Board board = new(3, 3, 0);
 
         var hasMine = board.GetAdjacentCount(1, 1);
 
@@ -15,7 +15,7 @@ public class BoardTests
     [Fact]
     public void GetAdjacentCount_4Adjacent_4()
     {
-        var board = new Board(3, 3, 0);
+        Board board = new(3, 3, 0);
         board[0, 0].HasMine = true;
         board[1, 0].HasMine = true;
         board[2, 0].HasMine = true;
@@ -30,7 +30,7 @@ public class BoardTests
     [Fact]
     public void GetAdjacentCount_3Corner_3()
     {
-        var board = new Board(3, 3, 3);
+        Board board = new(3, 3, 0);
         board[1, 0].HasMine = true;
         board[1, 1].HasMine = true;
         board[0, 1].HasMine = true;

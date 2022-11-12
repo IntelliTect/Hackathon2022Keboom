@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Keboom.Client.ViewModels;
+﻿namespace Keboom.Client.ViewModels;
 
 public interface IViewModelBase : INotifyPropertyChanged
 {
