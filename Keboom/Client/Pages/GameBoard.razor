@@ -1,24 +1,26 @@
 ﻿@inherits ComponentBase<GameBoardViewModel>
 @page "/GameBoard"
 
+@if (ViewModel.GameState?.GameStatus != GameStatus.WaitingForPlayersToJoin)
+{
+    <div class="container">
+        <CascadingValue Value="@ViewModel.GameState" Name="GameState">
+            <CascadingValue Value="@ViewModel.ClientPlayer" Name="ClientPlayer">
 
-<div class="container">
-    <CascadingValue Value="@ViewModel.GameState" Name="GameState">
-        <CascadingValue Value="@ViewModel.ClientPlayer" Name="ClientPlayer">
-            @if (ViewModel.GameState?.GameStatus != GameStatus.WaitingForPlayersToJoin)
-            {
 
                 <Minefield></Minefield>
                 <ScoreBoard></ScoreBoard>
-            }
-            else
-            {
-                <div>Waiting for other players</div>
-                <div>Game Name: @ViewModel.GameState.Id</div>
-                <button type="button" class="copy-button" @onclick="ViewModel.CopyGameLinkToClipboard">Copy Shareable Game Link</button>
-            }
+
+            </CascadingValue>
         </CascadingValue>
-    </CascadingValue>
-</div>
+    </div>
+}
+else
+{
+    <h3>Waiting for other players</h3>
+    <img src="dial-up-modem.gif" width="833" height="416" />
+    <h4>Game Name: @ViewModel.GameState.Id</h4>
+    <button type="button" class="copy-button" @onclick="ViewModel.CopyGameLinkToClipboard">Copy Shareable Game Link</button>
+}
 
 

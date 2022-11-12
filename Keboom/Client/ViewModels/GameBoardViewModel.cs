@@ -73,7 +73,7 @@ public partial class GameBoardViewModel : ViewModelBase
 
     private void OnGameStateUpdated(object? sender, EventArgs<GameState> e)
     {
-        Console.WriteLine("Got new game state");
+        //Console.WriteLine("Got new game state");
         GameState = e.Value;
         NotifyStateChanged();
     }
