@@ -22,9 +22,11 @@ public class GameBoardViewModel : ViewModelBase
         GameEvents.GameStateUpdated -= OnGameStateUpdated;
         GameEvents.GameStateUpdated += OnGameStateUpdated;
 
+        var gameName = Guid.NewGuid().ToString();
+
         var joinGameRequest = new JoinGameRequest
         {
-            GameName = "Inigo",
+            GameName = gameName,
             BoardWidth = 8,
             BoardHeight = 8,
             NumberOfMines = 15,
@@ -36,7 +38,7 @@ public class GameBoardViewModel : ViewModelBase
 
         var joinGameRequest2 = new JoinGameRequest
         {
-            GameName = "Inigo",
+            GameName = gameName,
             BoardWidth = 8,
             BoardHeight = 8,
             NumberOfMines = 15,
