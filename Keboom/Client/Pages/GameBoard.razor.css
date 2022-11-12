@@ -1,9 +1,7 @@
 ﻿.container {
-    display: flex;
-    -ms-align-items: flex-start;
-    -o-align-items: flex-start;
-    -webkit-align-items: flex-start;
-    align-items: flex-start;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
 }
-
