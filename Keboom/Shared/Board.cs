@@ -16,7 +16,7 @@ public class Board
         {
             for(var y = 0; y < height; y++)
             {
-                Grid[x, y] = new BoardSpace();
+                Grid[x, y] = new BoardSpace(x, y);
             }
         }
     }
