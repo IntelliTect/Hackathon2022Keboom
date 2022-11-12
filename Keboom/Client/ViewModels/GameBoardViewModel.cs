@@ -1,10 +1,7 @@
-﻿using System.Net.Http.Json;
-using Keboom.Shared;
 ﻿namespace Keboom.Client.ViewModels;
 
 public class GameBoardViewModel : ViewModelBase
 {
-
     public GameState? GameState { get; private set; }
     public IGameHubClientSideMethods GameEvents { get; }
     public IGameHubServerSideMethods ServerSideMethods { get; }
