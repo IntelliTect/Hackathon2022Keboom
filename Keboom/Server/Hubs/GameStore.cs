@@ -5,9 +5,9 @@ namespace Keboom.Server.Hubs;
 
 public class GameStore : IGameStore
 {
-    private Dictionary<string, GameState> Games { get; } = new();
+    private Dictionary<string?, GameState> Games { get; } = new();
 
-    private readonly Dictionary<string, string> PlayerIdToGameId = new();
+    private readonly Dictionary<string?, string> PlayerIdToGameId = new();
 
     private readonly object newGameLock = new();
 
