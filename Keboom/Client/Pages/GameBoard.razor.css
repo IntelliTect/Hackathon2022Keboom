@@ -6,4 +6,6 @@
     grid-row-gap: 20px;
 }
 
-
+.copy-button {
+    max-width: max-content;
+}
