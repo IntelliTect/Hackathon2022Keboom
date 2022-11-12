@@ -12,7 +12,7 @@
                     BoardSpace space = board[col, row];
                     if (space.ClaimedByPlayer is null)
                     {
-                        <button class="cell"
+                        <button class="cell" disabled="@(ViewModel?.GameState?.CurrentPlayerId != ClientPlayer?.Id)"
                                 @onclick="() => OnOpenCellClick(space)">
                         </button>
                     }
