@@ -5,9 +5,9 @@ namespace Keboom.Server.Hubs;
 
 public class GameStore : IGameStore
 {
-    private Dictionary<string?, GameState> Games { get; } = new();
-
-    private readonly Dictionary<string?, string> PlayerIdToGameId = new();
+    private Dictionary<string, GameState> Games { get; } = new();
+    
+    private readonly Dictionary<string, string> PlayerIdToGameId = new();
 
     private readonly object newGameLock = new();
 
@@ -15,11 +15,11 @@ public class GameStore : IGameStore
     {
         lock (newGameLock)
         {
-            RemoveFromGame(joinRequest.PlayerId);
-
-            if (Games.ContainsKey(joinRequest.GameName))
+            RemoveFromGame(joinRequest.PlayerId ?? "");
+            string gameName = joinRequest.GameName ?? "";
+            if (Games.ContainsKey(gameName))
             {
-                var existingGame = Games[joinRequest.GameName];
+                var existingGame = Games[gameName];
 
                 existingGame.GameStatus = GameStatus.InProgress;
                 AddPlayer(existingGame, new Player
@@ -34,7 +34,7 @@ public class GameStore : IGameStore
 
             var newGame = new GameState
             {
-                Id = joinRequest.GameName,
+                Id = gameName,
                 Board = new Board(joinRequest.BoardWidth, joinRequest.BoardHeight, joinRequest.NumberOfMines),
                 GameStatus = GameStatus.WaitingForPlayersToJoin
             };
