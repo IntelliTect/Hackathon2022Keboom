@@ -8,15 +8,28 @@ public class GameBoardViewModel : ViewModelBase
 {
 
     public GameState? GameState { get; private set; }
-    public GameHubConnection GameHubConnection { get; }
+    public IGameHubClientSideMethods GameEvents { get; }
+    public IGameHubServerSideMethods ServerSideMethods { get; }
 
-    public GameBoardViewModel(GameHubConnection gameHubConnection)
+    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods)
     {
-        GameHubConnection = gameHubConnection;
+        GameEvents = hubEvents;
+        ServerSideMethods = hubMethods;
     }
 
     public override Task OnInitializedAsync()
     {
+        GameEvents.NewGameId -= OnNewGameId;
+        GameEvents.NewGameId += OnNewGameId;
+
+        GameEvents.GameStarted -= OnGameStart;
+        GameEvents.GameStarted += OnGameStart;
+
+        GameEvents.GameStateUpdated -= OnGameStateUpdated;
+        GameEvents.GameStateUpdated += OnGameStateUpdated;
+
+
+
         GameState = new GameState
         {
             Board = BoardGenerator.CreateBoard(8, 8, 15),
@@ -24,9 +37,15 @@ public class GameBoardViewModel : ViewModelBase
             Player2 = new Player { Id = Guid.NewGuid().ToString(), Name = "Player 2", Score = 0 }
         };
 
-        GameHubConnection.CreateGame("Inigo");
+
+        ServerSideMethods.CreateGame("Inigo");
         
         GameState.CurrentPlayer = GameState.Player1;
         return base.OnInitializedAsync();
     }
+
+    private void OnGameStateUpdated(object? sender, EventArgs<GameState> e) => throw new NotImplementedException();
+    private void OnGameStart(object? sender, EventArgs<GameState> e) => throw new NotImplementedException();
+    private void OnNewGameId(object? sender, EventArgs<string> e) => Console.WriteLine($"new game! id: {e}");
+
 }

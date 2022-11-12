@@ -79,7 +79,7 @@ public class GameHub : Hub , IGameHubServerSideMethods
                 
             };
 
-            await Clients.Group(gameId).SendAsync(nameof(IGameHubClientSideMethods.StartGame) , newGame);
+            await Clients.Group(gameId).SendAsync(nameof(IGameHubClientSideMethods.GameStarted) , newGame);
         
         }
 

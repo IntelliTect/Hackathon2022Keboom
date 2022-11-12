@@ -2,7 +2,7 @@
 {
     public interface IGameHubEventHandler
     {
-        void LostConnection();
-        void Connected();
+        event EventHandler ConnectionLost;
+        event EventHandler Connected;
     }
 }

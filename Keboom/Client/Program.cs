@@ -13,12 +13,11 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // ViewModels
 builder.Services.AddTransient<GameBoardViewModel>();
 
-builder.Services.AddSingleton<MockClientSideGameHandler>();
-builder.Services.AddSingleton<IGameHubEventHandler>(x=>x.GetRequiredService<MockClientSideGameHandler>());
-builder.Services.AddSingleton<IGameHubClientSideMethods>(x => x.GetRequiredService<MockClientSideGameHandler>());
+builder.Services.AddSingleton(x=>new GameHubConnection(x.GetRequiredService<NavigationManager>().ToAbsoluteUri("/gamehub").ToString()));
 
-builder.Services.AddSingleton(x=>new GameHubConnection(x.GetRequiredService<NavigationManager>().ToAbsoluteUri("/gamehub").ToString(),
-                                                        x.GetRequiredService<IGameHubClientSideMethods>(), x.GetRequiredService<IGameHubEventHandler>()));
+builder.Services.AddSingleton<IGameHubEventHandler>(x => x.GetRequiredService<GameHubConnection>());
+builder.Services.AddSingleton<IGameHubServerSideMethods>(x => x.GetRequiredService<GameHubConnection>());
+builder.Services.AddSingleton<IGameHubClientSideMethods>(x => x.GetRequiredService<GameHubConnection>());
 
 var app = builder.Build();
 

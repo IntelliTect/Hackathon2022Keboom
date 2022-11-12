@@ -2,13 +2,13 @@ namespace Keboom.Shared;
 
 public interface IGameHubClientSideMethods
 {
-    void PlayerLeft(string playerId);
-    void NewGameId(string gameId);
-    void StartGame(GameState gameState);
-    void GameState(GameState gameState);
-
+    event EventHandler<EventArgs<string>> PlayerLeft;
+    event EventHandler<EventArgs<string>> NewGameId;
+    event EventHandler<EventArgs<GameState>> GameStarted;
+    event EventHandler<EventArgs<GameState>> GameStateUpdated;
 }
 
+public record EventArgs<T>(T Value);
 
 public interface IGameHubServerSideMethods
 {

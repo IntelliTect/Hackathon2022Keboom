@@ -3,16 +3,13 @@ using Polly;
 
 namespace Keboom.Shared;
 
-public class GameHubConnection : IGameHubServerSideMethods
+public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMethods, IGameHubEventHandler
 {
     HubConnection HubConnection { get; set; }
     string HubUrl { get; set; }
-    public IGameHubClientSideMethods Handler { get; }
-    public IGameHubEventHandler HubEventHandler { get; }
-
-    public GameHubConnection(string url, IGameHubClientSideMethods handler, IGameHubEventHandler gameHubEventHandler){
-        Handler = handler;
-        HubEventHandler = gameHubEventHandler;
+    
+    public GameHubConnection(string url){
+       
         HubUrl = url;
     
      
@@ -36,17 +33,24 @@ public class GameHubConnection : IGameHubServerSideMethods
             )*/
             .Build();
 
-        SetHandler(handler);
+        SetEvents();
 
         HubConnection.Closed += async (error) =>
         {
-            HubEventHandler.LostConnection();
+            ConnectionLost?.Invoke(this,EventArgs.Empty);
             Console.Error.WriteLine($"Connection lost to hub: {error?.Message}");
             await Open();
         };
 
         Task.Run(() => Open());
     }
+
+    public event EventHandler? ConnectionLost;
+    public event EventHandler? Connected;
+    public event EventHandler<EventArgs<string>>? PlayerLeft;
+    public event EventHandler<EventArgs<string>>? NewGameId;
+    public event EventHandler<EventArgs<GameState>>? GameStarted;
+    public event EventHandler<EventArgs<GameState>>? GameStateUpdated;
 
     private async Task Open()
     {
@@ -57,7 +61,7 @@ public class GameHubConnection : IGameHubServerSideMethods
                 i => pauseBetweenFailures,
                 (exception, timeSpan) =>
                 {
-                    HubEventHandler.LostConnection();
+                    ConnectionLost?.Invoke(this, EventArgs.Empty);
                     Console.Error.WriteLine(
                         $"Error connecting to SignalR hub {HubUrl} - {exception.Message}"
                     );
@@ -73,32 +77,32 @@ public class GameHubConnection : IGameHubServerSideMethods
         {
             Console.WriteLine("Starting SignalR connection");
             await HubConnection.StartAsync();
-            HubEventHandler.Connected();
+            Connected?.Invoke(this, EventArgs.Empty);
             Console.WriteLine("SignalR connection established");
             return true;
         }
     }
 
-    private void SetHandler(IGameHubClientSideMethods gameHubClientSideMethods)
+    private void SetEvents()
     {
         HubConnection.On<GameState> (
-            nameof(IGameHubClientSideMethods.StartGame),
-            gameHubClientSideMethods.StartGame
+            nameof(IGameHubClientSideMethods.GameStarted),
+            (gameState)=>GameStarted?.Invoke(this, new EventArgs<GameState>(gameState))
         );
 
         HubConnection.On<string>(
             nameof(IGameHubClientSideMethods.NewGameId),
-            gameHubClientSideMethods.NewGameId
+            (gameId) => NewGameId?.Invoke(this, new EventArgs<string>(gameId))
         );
 
         HubConnection.On<string>(
             nameof(IGameHubClientSideMethods.PlayerLeft),
-            gameHubClientSideMethods.PlayerLeft
+            (playerId) => PlayerLeft?.Invoke(this, new EventArgs<string>(playerId))
         );
 
         HubConnection.On<GameState>(
-            nameof(IGameHubClientSideMethods.GameState),
-            gameHubClientSideMethods.GameState
+            nameof(IGameHubClientSideMethods.GameStateUpdated),
+            (gameState) => GameStateUpdated?.Invoke(this, new EventArgs<GameState>(gameState))
         );
     }
 
