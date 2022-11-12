@@ -32,7 +32,7 @@ public class GameBoardViewModel : ViewModelBase
             PlayerName = $"Player {Guid.NewGuid()}"
         };
 
-        using var response = await HttpClient.PostAsJsonAsync("/game", joinGameRequest);      
+        using var response = await HttpClient.PostAsJsonAsync("/game", joinGameRequest);
 
         var joinGameRequest2 = new JoinGameRequest
         {
@@ -46,9 +46,9 @@ public class GameBoardViewModel : ViewModelBase
 
         using var response2 = await HttpClient.PostAsJsonAsync("/game", joinGameRequest2);
 
-        var gameState = await response2.Content.ReadFromJsonAsync<GameState>();
+        GameState? gameState = await response2.Content.ReadFromJsonAsync<GameState>();
 
-        GameStateUpdated(gameState!);
+        GameStateUpdated(gameState);
 
         await base.OnInitializedAsync();
     }

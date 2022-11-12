@@ -11,7 +11,7 @@ public class GameState
     public Player? Player2 => Players.Skip(1).FirstOrDefault();
     public GameStatus GameStatus { get; set; }
 
-    public List<Player> Players { get; } = new();
+    public List<Player> Players { get; set; } = new();
 
     public Player? CurrentPlayer
     {
