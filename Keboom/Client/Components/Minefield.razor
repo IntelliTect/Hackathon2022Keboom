@@ -4,9 +4,7 @@
 <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
 @for(int row = 1; row <= GameState?.Board?.Height; row++) {
     @for(int col = 1; col <= GameState?.Board?.Width; col++) {
-        <button>
-            CELL(@row, @col)
-
+        <button class="cell">
         </button>
     }
 }
