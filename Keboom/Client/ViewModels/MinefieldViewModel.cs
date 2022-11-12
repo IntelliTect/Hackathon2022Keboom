@@ -1,4 +1,6 @@
 ﻿
+using Keboom.Shared;
+
 namespace Keboom.Client.ViewModels;
 
 public partial class MinefieldViewModel : ViewModelBase
@@ -35,6 +37,14 @@ public partial class MinefieldViewModel : ViewModelBase
             }
 
             HubMethods.GameState(gameState);
+        }
+    }
+
+    partial void OnGameStateChanged(GameState? value)
+    {
+        if (value?.GameStatus == GameStatus.GameOver && DetonateMines is { })
+        {
+            DetonateMines();
         }
     }
 }
