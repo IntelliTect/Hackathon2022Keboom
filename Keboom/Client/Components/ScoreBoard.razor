@@ -16,10 +16,10 @@
                 {
                     <dt>Name:</dt>
                     <dd>
-                        @player.Name
+                        <span class="player-name">@player.Name</span>
                         @if (player.Id == ViewModel.GameState.CurrentPlayer?.Id)
                         {
-                            <img src="@PlayerColorConverter.GetFlagImage(player.Color)" alt="current player flag" />
+                            <img class="current-player-image" src="@PlayerColorConverter.GetFlagImage(player.Color)" alt="current player flag" />
                         }
                     </dd>
                     <dt>Score:</dt>

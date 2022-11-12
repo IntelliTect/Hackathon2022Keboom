@@ -5,4 +5,14 @@
 dd {
     font-size: 1.4rem;
     color: darkblue;
+    height:1.5em;
+    display:flex;
+}
+
+.player-name {
+}
+
+.current-player-image {
+    height: 1.5em;
+    overflow: visible;
 }
