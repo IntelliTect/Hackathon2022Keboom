@@ -28,7 +28,7 @@ public class GameController : ControllerBase
 
         await gameHub.Clients
             .Group(gameState.Id)
-            .SendAsync(nameof(GameState), gameState);
+            .SendAsync(nameof(IGameHubClientSideMethods.GameStateUpdated), gameState);
 
         return gameState;
     }

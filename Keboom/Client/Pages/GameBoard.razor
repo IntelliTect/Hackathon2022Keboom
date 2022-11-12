@@ -4,8 +4,16 @@
 
 <div class="container">
     <CascadingValue Value="@ViewModel.GameState" Name="GameState">
-        <Minefield></Minefield>
-        <ScoreBoard></ScoreBoard>
+        @if (ViewModel.GameState?.GameStatus != GameStatus.WaitingForPlayersToJoin) {
+
+            <Minefield></Minefield>
+            <ScoreBoard></ScoreBoard>
+        } else
+        {
+            <div>Waiting for other players</div>
+            <div>Game Name: @ViewModel.GameState.Id </div>
+        }
+
     </CascadingValue>
 </div>
 

@@ -31,7 +31,7 @@ public class GameBoardViewModel : ViewModelBase
 
         if (gameName is null)
         {
-             gameName = Guid.NewGuid().ToString();
+             gameName = Guid.NewGuid().ToString().Substring(0, 4);
         }
 
         if (playerName is null)
@@ -51,19 +51,21 @@ public class GameBoardViewModel : ViewModelBase
 
         using var response = await HttpClient.PostAsJsonAsync("/game", joinGameRequest);
 
-        var joinGameRequest2 = new JoinGameRequest
-        {
-            GameName = gameName,
-            BoardWidth = 8,
-            BoardHeight = 8,
-            NumberOfMines = 15,
-            PlayerId = Guid.NewGuid().ToString(),
-            PlayerName = $"Player 2"
-        };
+        GameState = await response.Content.ReadFromJsonAsync<GameState>();
 
-        using var response2 = await HttpClient.PostAsJsonAsync("/game", joinGameRequest2);
+        //var joinGameRequest2 = new JoinGameRequest
+        //{
+        //    GameName = gameName,
+        //    BoardWidth = 8,
+        //    BoardHeight = 8,
+        //    NumberOfMines = 15,
+        //    PlayerId = Guid.NewGuid().ToString(),
+        //    PlayerName = $"Player 2"
+        //};
 
-        GameState = await response2.Content.ReadFromJsonAsync<GameState>();
+        //using var response2 = await HttpClient.PostAsJsonAsync("/game", joinGameRequest2);
+
+        //GameState = await response2.Content.ReadFromJsonAsync<GameState>();
 
         await ServerSideMethods.JoinGame(gameName);
 
@@ -74,5 +76,6 @@ public class GameBoardViewModel : ViewModelBase
     {
         Console.WriteLine("Got new game state");
         GameState = e.Value;
+        NotifyStateChanged();
     }
 }
