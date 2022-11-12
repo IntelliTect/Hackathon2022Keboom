@@ -1,8 +1,8 @@
 ﻿namespace Keboom.Shared;
 
-public class BoardGenerator
+public static class BoardGenerator
 {
-    public Board CreateBoard(int width, int height, int numberOfMines)
+    public static Board CreateBoard(int width, int height, int numberOfMines)
     {
         var board = new Board(width, height);
 
@@ -12,7 +12,7 @@ public class BoardGenerator
         return board;
     }
 
-    private void SetMines(Board board, int numberOfMines)
+    private static void SetMines(Board board, int numberOfMines)
     {
         var random = new Random();
 
@@ -32,7 +32,7 @@ public class BoardGenerator
         }
     }
 
-    private void SetAdjacentCounts(Board board)
+    private static void SetAdjacentCounts(Board board)
     {
         for(var x = 0; x < board.Width; x++)
         {

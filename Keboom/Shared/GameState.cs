@@ -2,6 +2,7 @@
 
 public class GameState
 {
+    public Guid Id { get; set; }
     public Board? Board { get; set; }
     public Player? Player1 { get; set; }
     public Player? Player2 { get; set; }
