@@ -6,7 +6,7 @@ public class GameEngineTests
     public void TriggerSapce_Unclaimed_FlaggedToCorrectPlayer()
     {
         var gameState = CreateGameState(true);
-        Player player = gameState.Player1!;
+        Player player = gameState.Players[0];
 
         GameEngine gameFlower = new(gameState, player);
 
@@ -35,7 +35,7 @@ public class GameEngineTests
     public void TriggerSapce_UnclaimedMine_ScoreAdded()
     {
         var gameState = CreateGameState(true);
-        Player player = gameState.Player1!;
+        Player player = gameState.Players[0];
 
         GameEngine gameFlower = new(gameState, player);
 
@@ -48,7 +48,7 @@ public class GameEngineTests
     public void TriggerSapce_ClaimedMine_ScoreUnchanged()
     {
         var gameState = CreateGameState(true);
-        Player player = gameState.Player1!;
+        Player player = gameState.Players[0]!;
 
         GameEngine gameFlower = new(gameState, player);
 
@@ -65,7 +65,7 @@ public class GameEngineTests
     public void TriggerSapce_UnclaimedMine_True()
     {
         var gameState = CreateGameState(true);
-        Player player = gameState.Player1!;
+        Player player = gameState.Players[0];
 
         GameEngine gameFlower = new(gameState, player);
 
@@ -78,7 +78,7 @@ public class GameEngineTests
     public void TriggerSapce_UnclaimedNoMine_False()
     {
         var gameState = CreateGameState(false);
-        Player player = gameState.Player1!;
+        Player player = gameState.Players[0];
 
         GameEngine gameFlower = new(gameState, player);
 
@@ -94,7 +94,7 @@ public class GameEngineTests
         gameState.Board![1, 2].HasMine = true;
         gameState.Board[2, 1].HasMine = true;
         gameState.Board.SetAdjacentCounts();
-        Player player = gameState.Player1!;
+        Player player = gameState.Players[0];
 
         GameEngine gameFlower = new(gameState, player);
 
@@ -119,14 +119,14 @@ public class GameEngineTests
         // Arrange
         var gameState = CreateGameState(false, 3);
 
-        GameEngine gameEngine = new(gameState, gameState.Player1!);
-        gameState.CurrentPlayer = gameState.Player1;
+        GameEngine gameEngine = new(gameState, gameState.Players.First());
+        gameState.CurrentPlayer = gameState.Players.First();
 
         // Act
         gameEngine.NextPlayersTurn();
 
         // Assert
-        Assert.Equal(gameState.Player2, gameState.CurrentPlayer);
+        Assert.Equal(gameState.Players[1], gameState.CurrentPlayer);
     }
 
     [Fact]
@@ -142,7 +142,7 @@ public class GameEngineTests
         gameEngine.NextPlayersTurn();
 
         // Assert
-        Assert.Equal(gameState.Player1, gameState.CurrentPlayer);
+        Assert.Equal(gameState.Players[0], gameState.CurrentPlayer);
     }
 
     [Fact]
@@ -151,14 +151,14 @@ public class GameEngineTests
         // Arrange
         var gameState = CreateGameState(false, 3);
 
-        GameEngine gameEngine = new(gameState, gameState.Player1!);
+        GameEngine gameEngine = new(gameState, gameState.Players.First()!);
         gameState.CurrentPlayer = null;
 
         // Act
         gameEngine.NextPlayersTurn();
 
         // Assert
-        Assert.Equal(gameState.Player1, gameState.CurrentPlayer);
+        Assert.Equal(gameState.Players[0], gameState.CurrentPlayer);
     }
 
     private static GameState CreateGameState(bool hasMines, int size = 2, int numMines = 0)

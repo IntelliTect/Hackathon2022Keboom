@@ -5,53 +5,90 @@ namespace Keboom.Server.Hubs;
 
 public class GameStore : IGameStore
 {
-    private readonly Dictionary<string, string> PlayerIdToGameId= new();
-    private readonly Dictionary<string, List<Player>> GameToPlayers = new();
+    private Dictionary<string, GameState> Games { get; } = new();
 
+    private readonly Dictionary<string, string> PlayerIdToGameId = new();
 
-    public void AddToGame(string playerId, string gameId, string playerName) {
-        PlayerIdToGameId.Add(playerId, gameId);
+    private readonly object newGameLock = new();
 
-        GameToPlayers.TryGetValue(gameId, out List<Player>? players);
+    public GameState JoinGame(JoinGameRequest joinRequest)
+    {
+        lock (newGameLock)
+        {
+            RemoveFromGame(joinRequest.PlayerId);
 
-        var newPlayer = new Player() { Id = playerId, Name = playerName };
+            if (Games.ContainsKey(joinRequest.GameName))
+            {
+                var existingGame = Games[joinRequest.GameName];
 
-        if (players is null) {
-            GameToPlayers[gameId] = new List<Player>() { newPlayer };
+                AddPlayer(existingGame, new Player
+                {
+                    Id = joinRequest.PlayerId,
+                    Name = joinRequest.PlayerName,
+                    Color = PlayerColor.Green
+                });
+
+                return existingGame;
+            }
+
+            var newGame = new GameState
+            {
+                Id = joinRequest.GameName,
+                Board = new Board(joinRequest.BoardWidth, joinRequest.BoardHeight, joinRequest.NumberOfMines)
+            };
+
+            AddPlayer(newGame, new Player
+            {
+                Id = joinRequest.PlayerId,
+                Name = joinRequest.PlayerName,
+                Color = PlayerColor.Red
+            });
+            Games[newGame.Id] = newGame;
+
+            return newGame;
         }
-        else {
-            players.Add(newPlayer);
-        }
-        
-    }
-
-    public int GamePlayerCount(string gameId) => GameToPlayers[gameId]?.Count ?? 0;
-
-    public string? GetGame(string playerId) {
-
-       PlayerIdToGameId.TryGetValue(playerId, out string? game);
-        return game;
-    }
-
-    public List<Player> GetGamePlayers(string gameId) {
-        return GameToPlayers[gameId] ?? new List<Player>();
     }
 
     public void RemoveFromGame(string playerId)
     {
+        if (!PlayerIdToGameId.ContainsKey(playerId)){
+            return;
+        }
 
-        string? gameId = PlayerIdToGameId[playerId];
+        string gameId = PlayerIdToGameId[playerId];
         PlayerIdToGameId.Remove(playerId);
-        if (gameId is not null)
+
+        if (gameId is not null && Games.ContainsKey(gameId))
         {
-            List<Player>? players = GameToPlayers[gameId];
-            if (players is not null) {
-                players.RemoveAll(p=> p.Id == playerId);
-                GameToPlayers[gameId] = players;
-                if (players.Count == 0) {
-                    GameToPlayers.Remove(gameId);
-                }
-            }
+            Games.Remove(gameId);
+
+            // todo allow player to reconnect
+        }
+    }
+
+    public string? GetGame(string playerId)
+    {
+        PlayerIdToGameId.TryGetValue(playerId, out string? game);
+        return game;
+    }
+
+    public static void AddPlayer(GameState game, Player player)
+    {
+        if (game.Players.FirstOrDefault(p => p.Id == player.Id) is not null)
+        {
+            return;
+        }
+
+        if (game.Players.Count >= 2)
+        {
+            throw new InvalidOperationException("Can't add more than two players");
+        }
+
+        game.Players.Add(player);
+
+        if (game.CurrentPlayer is null)
+        {
+            game.CurrentPlayer = player;
         }
     }
 }
@@ -59,8 +96,6 @@ public class GameStore : IGameStore
 public interface IGameStore
 {
     string? GetGame(string playerId);
-    void AddToGame(string playerId, string gameId, string playerName);
     void RemoveFromGame(string playerId);
-    int GamePlayerCount(string gameId);
-    List<Player> GetGamePlayers(string gameId);
+    GameState JoinGame(JoinGameRequest joinRequest);
 }

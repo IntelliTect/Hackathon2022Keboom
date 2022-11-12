@@ -10,8 +10,8 @@ public static class GameStateBuilder
         var gameState = new GameState();
         var player1 = new Player { Id = Guid.NewGuid().ToString(), Name = "Buzz", Score = 0 };
         var player2 = new Player { Id = Guid.NewGuid().ToString(), Name = "Andy", Score = 0 };
-        gameState.Player1 = player1;
-        gameState.Player2 = player2;
+        gameState.Players.Add(player1);
+        gameState.Players.Add(player2);
         gameState.CurrentPlayer = player1;
         
         gameState.Board = new Board(boardWidth, boardHeight, numberOfMines);

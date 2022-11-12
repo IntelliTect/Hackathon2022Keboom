@@ -1,3 +1,5 @@
+﻿using System.Net.Http.Json;
+using Keboom.Shared;
 ﻿namespace Keboom.Client.ViewModels;
 
 public class GameBoardViewModel : ViewModelBase
@@ -6,53 +8,55 @@ public class GameBoardViewModel : ViewModelBase
     public GameState? GameState { get; private set; }
     public IGameHubClientSideMethods GameEvents { get; }
     public IGameHubServerSideMethods ServerSideMethods { get; }
+    public HttpClient HttpClient { get; }
 
-    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods)
+    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods, HttpClient httpClient)
     {
         GameEvents = hubEvents;
         ServerSideMethods = hubMethods;
+        HttpClient = httpClient;
     }
 
-    public override Task OnInitializedAsync()
+    public override async Task OnInitializedAsync()
     {
-        GameEvents.NewGameId -= OnNewGameId;
-        GameEvents.NewGameId += OnNewGameId;
-
-        GameEvents.GameStarted -= OnGameStart;
-        GameEvents.GameStarted += OnGameStart;
-
         GameEvents.GameStateUpdated -= OnGameStateUpdated;
         GameEvents.GameStateUpdated += OnGameStateUpdated;
 
-        GameState = new GameState
+        var joinGameRequest = new JoinGameRequest
         {
-            Board = new (8, 8, 15),
-            GameStatus = GameStatus.InProgress,
-            Player1 = new Player
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Player 1",
-                Score = 0,
-                Color = PlayerColor.Red
-            },
-            Player2 = new Player
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Player 2",
-                Score = 0,
-                Color = PlayerColor.Yellow
-            }
+            GameName = "Inigo",
+            BoardWidth = 8,
+            BoardHeight = 8,
+            NumberOfMines = 15,
+            PlayerId = Guid.NewGuid().ToString(),
+            PlayerName = $"Player {Guid.NewGuid()}"
         };
 
+        using var response = await HttpClient.PostAsJsonAsync("/game", joinGameRequest);      
 
-        ServerSideMethods.CreateGame("Inigo");
+        var joinGameRequest2 = new JoinGameRequest
+        {
+            GameName = "Inigo",
+            BoardWidth = 8,
+            BoardHeight = 8,
+            NumberOfMines = 15,
+            PlayerId = Guid.NewGuid().ToString(),
+            PlayerName = $"Player 2"
+        };
 
-        GameState.CurrentPlayer = GameState.Player1;
-        return base.OnInitializedAsync();
+        using var response2 = await HttpClient.PostAsJsonAsync("/game", joinGameRequest2);
+
+        var gameState = await response2.Content.ReadFromJsonAsync<GameState>();
+
+        GameStateUpdated(gameState!);
+
+        await base.OnInitializedAsync();
+    }
+
+    private void GameStateUpdated(GameState newGameState)
+    {
+        GameState= newGameState;
     }
 
     private void OnGameStateUpdated(object? sender, EventArgs<GameState> e) => throw new NotImplementedException();
-    private void OnGameStart(object? sender, EventArgs<GameState> e) => throw new NotImplementedException();
-    private void OnNewGameId(object? sender, EventArgs<string> e) => Console.WriteLine($"new game! id: {e}");
-
 }

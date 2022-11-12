@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace Keboom.Server.Hubs;
 
 
-public class GameHub : Hub , IGameHubServerSideMethods
+public class GameHub : Hub, IGameHubServerSideMethods
 {
     private readonly IGameStore gameStore;
     private readonly ILogger<GameHub> logger;
@@ -18,11 +18,6 @@ public class GameHub : Hub , IGameHubServerSideMethods
         this.logger = logger;
     }
 
-    public override Task<Task> OnConnectedAsync()
-    {
-        return Task.FromResult(base.OnConnectedAsync());
-    }
-
     public override async Task<Task> OnDisconnectedAsync(Exception? exception)
     {
         var playerId = Context.ConnectionId;
@@ -30,59 +25,21 @@ public class GameHub : Hub , IGameHubServerSideMethods
         string? game = gameStore.GetGame(playerId);
         gameStore.RemoveFromGame(playerId);
 
-        if (game is not null) {
+        if (game is not null)
+        {
             await Clients.Group(game).SendAsync(nameof(IGameHubClientSideMethods.PlayerLeft), playerId);
         }
 
         return base.OnDisconnectedAsync(exception);
     }
 
-
-    [HubMethodName(nameof(CreateGame))]
-    public async Task CreateGame(string playerName)
-    {
-        string playerId = Context.ConnectionId;
-
-        string newGameId = Guid.NewGuid().ToString();
-        gameStore.AddToGame(playerId, newGameId, playerName);
-
-        await Groups.AddToGroupAsync(
-                            Context.ConnectionId,
-                            newGameId
-                        );
-
-        await Clients.Client(playerId).SendAsync(nameof(IGameHubClientSideMethods.NewGameId), newGameId);
-    }
-
     [HubMethodName(nameof(JoinGame))]
-    public async Task JoinGame(string gameId, string playername)
+    public async Task JoinGame(string gameId)
     {
-        string playerId = Context.ConnectionId;
-        gameStore.AddToGame(playerId, gameId, playername);
-
         await Groups.AddToGroupAsync(
                             Context.ConnectionId,
                             gameId
                         );
-
-        if (gameStore.GamePlayerCount(gameId) == 2 )
-        {
-            var players = gameStore.GetGamePlayers(gameId);
-
-            var newGame = new GameState()
-            {
-                Id = gameId,
-                Board = new(4, 4, 5),
-                Player1 = players[0],
-                Player2 = players[1],
-                CurrentPlayer= players[0],
-
-            };
-
-            await Clients.Group(gameId).SendAsync(nameof(IGameHubClientSideMethods.GameStarted) , newGame);
-
-        }
-
     }
 
 
@@ -91,7 +48,8 @@ public class GameHub : Hub , IGameHubServerSideMethods
     {
         var gameId = gameStore.GetGame(Context.ConnectionId);
 
-        if (gameId is null) {
+        if (gameId is null)
+        {
             return;
         }
         await Groups.RemoveFromGroupAsync(

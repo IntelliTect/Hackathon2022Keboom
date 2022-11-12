@@ -34,7 +34,7 @@ builder.Services
         }
     );
 
-builder.Services.AddSingleton<IGameStore>(new GameStore());
+builder.Services.AddSingleton<IGameStore, GameStore>();
 
 var app = builder.Build();
 

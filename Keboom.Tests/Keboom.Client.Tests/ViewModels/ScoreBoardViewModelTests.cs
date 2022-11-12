@@ -13,8 +13,10 @@ public class ScoreBoardViewModelTests
 
         sut.GameState = new GameState
         {
-            Player1 = new Player { Id = Guid.NewGuid().ToString(), Name = "Buzz", Score = 0 },
-            Player2 = new Player { Id = Guid.NewGuid().ToString(), Name = "Andy", Score = 0 }
+            Players = {
+                new Player { Id = Guid.NewGuid().ToString(), Name = "Buzz", Score = 0 },
+                new Player { Id = Guid.NewGuid().ToString(), Name = "Andy", Score = 0 }
+            }
         };
 
         Assert.True(sut.GameHasPlayers);
@@ -38,11 +40,7 @@ public class GameStateTestData : TheoryData<GameState?>
 {
     public GameStateTestData()
     {
-        Add(new GameState
-        {
-            Player1 = null,
-            Player2 = null
-        });
+        Add(new GameState());
         Add(null);
     }
 }

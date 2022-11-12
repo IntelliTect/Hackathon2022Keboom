@@ -1,5 +1,8 @@
+using System.Reflection.Metadata.Ecma335;
+using Keboom.Server.Hubs;
 using Keboom.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Keboom.Server.Controllers;
 
@@ -8,27 +11,26 @@ namespace Keboom.Server.Controllers;
 public class GameController : ControllerBase
 {
     private readonly ILogger<GameController> _logger;
+    private readonly IGameStore gameStore;
+    private readonly IHubContext<GameHub> gameHub;
 
-    public GameController(ILogger<GameController> logger)
+    public GameController(ILogger<GameController> logger, IGameStore gameStore, IHubContext<GameHub> gameHub)
     {
         _logger = logger;
+        this.gameStore = gameStore;
+        this.gameHub = gameHub;
     }
 
-
-    [HttpGet]
-    [Route(nameof(CreateNewGame))]
-    public GameState CreateNewGame(string player1Name, string player2Name)
+    [HttpPost]
+    public async Task<GameState> JoinGame([FromBody] JoinGameRequest joinGameRequest)
     {
-        var newGame =  new GameState()
-        {
-            Id = Guid.NewGuid().ToString(),
-            Board = new(4, 4, 5),
-            GameStatus = GameStatus.WaitingForPlayers,
-            Player1 = new Player() { Id = Guid.NewGuid().ToString(), Name= player1Name },
-            Player2 = new Player() { Id = Guid.NewGuid().ToString(), Name = player2Name }
-        };
+        var gameState = gameStore.JoinGame(joinGameRequest);
 
-        return newGame;
+        await gameHub.Clients
+            .Group(gameState.Id)
+            .SendAsync(nameof(GameState), gameState);
+
+        return gameState;
     }
 
 }
