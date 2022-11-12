@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-
-namespace Keboom.Client.ViewModels;
+﻿namespace Keboom.Client.ViewModels;
 
 public abstract partial class ViewModelBase : ObservableObject, IViewModelBase
 {
