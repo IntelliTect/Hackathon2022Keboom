@@ -14,11 +14,15 @@ public partial class IndexViewModel : ViewModelBase
     private string? _GameName;
 
     [ObservableProperty]
-    private string? _CreatorPlayerName;
+    private string? _PlayerName;
 
     [ObservableProperty]
-    private string? _JoiningPlayerName;
+    private bool _CreateButtonVisible = false;
 
+    [ObservableProperty]
+    private bool _JoinButtonVisible = false;
+
+    
     public IndexViewModel( HttpClient httpClient, NavigationManager navigation)
     {
       
@@ -33,21 +37,28 @@ public partial class IndexViewModel : ViewModelBase
         Navigation.TryGetQueryString("gameName", out string? gameName);
         GameName = gameName;
 
+        if (gameName is not null)
+        {
+            JoinButtonVisible = true;
+        }
+        else {
+            CreateButtonVisible= true;
+        }
+
        // Navigation.
       
         await base.OnInitializedAsync();
     }
 
-
-
-    private void NavigateToGameBoardAndJoinGame()
+    
+    public void NavigateToGameBoardAndJoinGame()
     {
-        Navigation.NavigateTo($"gameboard?playerName={JoiningPlayerName}&{nameof(GameName)}={GameName}");
+        Navigation.NavigateTo($"gameboard?playerName={PlayerName}&{nameof(GameName)}={GameName}");
     }
 
-    private void NavigateToGameBoardAndCreateGame()
+    public void NavigateToGameBoardAndCreateGame()
     {
-        Navigation.NavigateTo($"gameboard?playerName={CreatorPlayerName}");
+        Navigation.NavigateTo($"gameboard?playerName={PlayerName}");
     }
 
 

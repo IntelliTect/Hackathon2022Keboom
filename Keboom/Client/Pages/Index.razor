@@ -9,10 +9,28 @@
             </button>
         </NavLink>
 
-        <h2>Join Game</h2>
-        <InputText @bind-Value="ViewModel.GameName"></InputText>
+        @if (ViewModel.JoinButtonVisible)
+        {
+
+            <h2>Game Code</h2>
+            <InputText @bind-Value="ViewModel.GameName"></InputText>
+
+        }
         <h2>Your Name</h2>
-        <InputText @bind-Value="ViewModel.JoiningPlayerName"></InputText>
+        <InputText @bind-Value="ViewModel.PlayerName"></InputText>
+
+        @if (ViewModel.CreateButtonVisible)
+        {
+            <button class="btn btn-primary" visible="@ViewModel.CreateButtonVisible" @onclick="ViewModel.NavigateToGameBoardAndCreateGame">
+                Create Game
+            </button>
+        }
+        @if (ViewModel.JoinButtonVisible)
+        {
+            <button class="btn btn-primary" visible="@ViewModel.JoinButtonVisible" @onclick="ViewModel.NavigateToGameBoardAndJoinGame">
+                Join Game
+            </button>
+        }
     </Content>
 </HeroImage>
 
