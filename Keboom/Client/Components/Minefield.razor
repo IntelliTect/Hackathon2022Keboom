@@ -1,0 +1,19 @@
+﻿@using Keboom.Shared
+<h1>Minefield</h1>
+
+<div style="display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr); gap: 10px; padding: 5px ">
+@for(int row = 1; row <= GameState?.Board?.Height; row++) {
+    @for(int col = 1; col <= GameState?.Board?.Width; col++) {
+        <button>
+            CELL(@row, @col)
+
+        </button>
+    }
+}
+</div>
+
+@code
+{
+    [CascadingParameter(Name = "GameState")]
+    public GameState? GameState { get; set; }
+}
