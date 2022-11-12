@@ -21,7 +21,7 @@ public class GameEngineTests
         var gameState = CreateGameState(false);
         Player player = gameState.Player1!;
         var player2Id = gameState.Player2!.Id;
-        
+
         var gameFlower = new GameEngine(gameState, player);
 
         gameState.Board![0, 0].ClaimedByPlayer = player2Id;
@@ -134,7 +134,7 @@ public class GameEngineTests
     {
         // Arrange
         var gameState = CreateGameState(false, 3);
-        
+
         GameEngine gameEngine = new(gameState, gameState.Player1!);
         gameState.CurrentPlayer = gameState.Player2;
 
@@ -161,14 +161,14 @@ public class GameEngineTests
         Assert.Equal(gameState.Player1, gameState.CurrentPlayer);
     }
 
-    private static GameState CreateGameState(bool hasMines, int size = 2)
+    private static GameState CreateGameState(bool hasMines, int size = 2, int numMines = 0)
     {
         var gameState = new GameState()
         {
             Player1 = new() { Id = Guid.NewGuid().ToString(), Name = "Player 1", Score = 0 },
             Player2 = new() { Id = Guid.NewGuid().ToString(), Name = "Player 2", Score = 0 },
         };
-        var board = new Board(size, size);
+        var board = new Board(size, size, numMines);
 
         for (var x = 0; x < board.Width; x++)
         {

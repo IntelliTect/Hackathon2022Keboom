@@ -23,10 +23,11 @@ public class GameBoardViewModel : ViewModelBase
 
         GameEvents.GameStateUpdated -= OnGameStateUpdated;
         GameEvents.GameStateUpdated += OnGameStateUpdated;
-        
+
         GameState = new GameState
         {
-            Board = BoardGenerator.CreateBoard(8, 8, 15),
+            Board = new (8, 8, 15),
+            GameStatus = GameStatus.InProgress,
             Player1 = new Player
             {
                 Id = Guid.NewGuid().ToString(),

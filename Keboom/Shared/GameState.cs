@@ -5,11 +5,11 @@ public class GameState
     private Player? currentPlayer;
 
     public event EventHandler? CurrentPlayerChanged;
-
     public string Id { get; set; } = "";
     public Board? Board { get; set; }
     public Player? Player1 { get; set; }
     public Player? Player2 { get; set; }
+    public GameStatus GameStatus { get; set; }
 
     public List<Player> Players => EnumeratePlayers().ToList();
 

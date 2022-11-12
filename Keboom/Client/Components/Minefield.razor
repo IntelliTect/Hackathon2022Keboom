@@ -1,6 +1,7 @@
 ﻿@using Keboom.Client.Converters;
 @using Keboom.Shared
 
+
 <div style="flex-grow: 4;">
     <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
         @for (int row = 0; row < GameState?.Board?.Height; row++)
@@ -33,6 +34,13 @@
             }
         }
 
+        @if (GameState?.GameStatus == GameStatus.GameOver)
+        {
+            <div>
+                <p>@GameState.CurrentPlayer!.Name has won!</p>
+                <p>With a score of @GameState.CurrentPlayer.Score</p>
+            </div>
+        }
     </div>
 </div>
 
@@ -55,8 +63,13 @@
 			{
 				gameEngine.NextPlayersTurn();
 			}
+		    if (GameState.GameStatus == GameStatus.GameOver)
+		    {
+		        StateHasChanged();
+		    }
 		}
 	}
+
 
 	private string GetPlayerFlag(string playerId)
 	{

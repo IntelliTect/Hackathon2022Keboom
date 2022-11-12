@@ -8,7 +8,7 @@ public class GameHub : Hub , IGameHubServerSideMethods
 {
     private readonly IGameStore gameStore;
     private readonly ILogger<GameHub> logger;
-    
+
     public GameHub(
         IGameStore gameStore,
         ILogger<GameHub> logger
@@ -18,12 +18,12 @@ public class GameHub : Hub , IGameHubServerSideMethods
         this.logger = logger;
     }
 
-    public override async Task<Task> OnConnectedAsync()
+    public override Task<Task> OnConnectedAsync()
     {
-        return base.OnConnectedAsync();
+        return Task.FromResult(base.OnConnectedAsync());
     }
 
-    public override async Task<Task> OnDisconnectedAsync(Exception exception)
+    public override async Task<Task> OnDisconnectedAsync(Exception? exception)
     {
         var playerId = Context.ConnectionId;
 
@@ -72,15 +72,15 @@ public class GameHub : Hub , IGameHubServerSideMethods
             var newGame = new GameState()
             {
                 Id = gameId,
-                Board = BoardGenerator.CreateBoard(4, 4, 5),
+                Board = new(4, 4, 5),
                 Player1 = players[0],
                 Player2 = players[1],
                 CurrentPlayer= players[0],
-                
+
             };
 
             await Clients.Group(gameId).SendAsync(nameof(IGameHubClientSideMethods.GameStarted) , newGame);
-        
+
         }
 
     }

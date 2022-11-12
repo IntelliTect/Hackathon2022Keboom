@@ -13,18 +13,41 @@ public class Board
 
     public int Width { get; }
     public int Height { get; }
+    public int NumberOfMines { get; }
 
-    public Board(int width, int height)
+    public Board(int width, int height, int numberOfMines)
     {
         FlatGrid = new BoardSpace[width * height];
         Width = width;
         Height = height;
-
+        NumberOfMines = numberOfMines;
         for (var x = 0; x < width; x++)
         {
             for (var y = 0; y < height; y++)
             {
                 FlatGrid[x * width + y] = new BoardSpace(x, y);
+            }
+        }
+        SetMines(NumberOfMines);
+        SetAdjacentCounts();
+    }
+
+    private void SetMines(int numberOfMines)
+    {
+        Random random = new();
+
+        for (int mine = 0; mine < numberOfMines; mine++)
+        {
+            while (true)
+            {
+                var x = random.Next(Width);
+                var y = random.Next(Height);
+
+                if (!this[x, y].HasMine)
+                {
+                    this[x, y].HasMine = true;
+                    break;
+                }
             }
         }
     }

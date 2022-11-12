@@ -22,13 +22,13 @@ public class PlayerAuthenticationHandler
     }
 
     const string PlayerName = "playerName";
-    protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
+    protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         if (!Request.Headers.ContainsKey(PlayerName))
         {
-            return AuthenticateResult.NoResult();
+            return Task.FromResult(AuthenticateResult.NoResult());
         }
-      
+
             var claims = new[]
             {
                 // By default SignalR will set UserIdentifier to the users ClaimType.NameIdentifier
@@ -49,7 +49,7 @@ public class PlayerAuthenticationHandler
             );
 
             // pass on the ticket to the middleware
-            return AuthenticateResult.Success(ticket);
-       
+            return Task.FromResult(AuthenticateResult.Success(ticket));
+
     }
 }

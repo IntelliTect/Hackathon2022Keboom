@@ -22,8 +22,9 @@ public class GameController : ControllerBase
         var newGame =  new GameState()
         {
             Id = Guid.NewGuid().ToString(),
-            Board = BoardGenerator.CreateBoard(4, 4, 5),
-            Player1 = new Player() { Id = Guid.NewGuid().ToString(), Name=player1Name },
+            Board = new(4, 4, 5),
+            GameStatus = GameStatus.WaitingForPlayers,
+            Player1 = new Player() { Id = Guid.NewGuid().ToString(), Name= player1Name },
             Player2 = new Player() { Id = Guid.NewGuid().ToString(), Name = player2Name }
         };
 

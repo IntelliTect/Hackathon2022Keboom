@@ -23,6 +23,7 @@ public class GameEngine
         if (boardSpace.HasMine)
         {
             Player.Score++;
+            UpdateGameStatus();
             return true;
         }
 
@@ -36,7 +37,16 @@ public class GameEngine
 
         return false;
     }
-    
+
+    private void UpdateGameStatus()
+    {
+        if (Player.Score > Math.Ceiling(GameState.Board?.NumberOfMines/2.0 ?? Int32.MaxValue))
+        {
+            GameState.GameStatus = GameStatus.GameOver;
+        }
+
+    }
+
     public void NextPlayersTurn()
     {
         int index = GameState.CurrentPlayer is { } current ? GameState.Players.IndexOf(current) : -1;
