@@ -1,5 +1,8 @@
 ﻿.container {
     display: flex;
+    -ms-align-items: flex-start;
+    -o-align-items: flex-start;
+    -webkit-align-items: flex-start;
     align-items: flex-start;
     gap: 20px;
 }

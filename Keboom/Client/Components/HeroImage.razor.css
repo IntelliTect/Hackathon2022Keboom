@@ -1,0 +1,15 @@
+﻿.root-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+    .root-content > img {
+        object-fit: cover;
+        height: 80vh;
+    }
+
+.window-body {
+    height: 80vh;
+}
