@@ -7,33 +7,6 @@ public partial class ScoreBoardViewModel : ViewModelBase
 
     partial void OnGameStateChanging(GameState? value)
     {
-        if (_gameState is { } oldGameState)
-        {
-            oldGameState.CurrentPlayerChanged -= CurrentPlayerChanged;
-            oldGameState.Players.ForEach(p =>
-            {
-                p.ScoreChanged -= ScoreChanged;
-            });
-        }
-        if (value is not null)
-        {
-            value.CurrentPlayerChanged += CurrentPlayerChanged;
-
-            value.Players.ForEach(p =>
-            {
-                p.ScoreChanged -= ScoreChanged;
-                p.ScoreChanged += ScoreChanged;
-            });
-        }
-    }
-
-    private void CurrentPlayerChanged(object? sender, EventArgs e)
-    {
-        NotifyStateChanged();
-    }
-
-    private void ScoreChanged(object? sender, EventArgs e)
-    {
         NotifyStateChanged();
     }
 

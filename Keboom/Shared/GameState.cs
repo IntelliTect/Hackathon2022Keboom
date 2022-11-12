@@ -3,8 +3,6 @@
 public class GameState
 {
     private Player? currentPlayer;
-
-    public event EventHandler? CurrentPlayerChanged;
     public string Id { get; set; } = "";
     public Board? Board { get; set; }
     public Player? Player1 => Players.FirstOrDefault();
@@ -15,16 +13,17 @@ public class GameState
 
     public Player? CurrentPlayer
     {
-        get => currentPlayer;
+        get
+        {
+            return Players.FirstOrDefault(p => p.Id == CurrentPlayerId);
+        }
         set
         {
-            if (currentPlayer != value)
-            {
-                currentPlayer = value;
-                CurrentPlayerChanged?.Invoke(this, EventArgs.Empty);
-            }
+            CurrentPlayerId = value.Id;
         }
     }
+
+    public string CurrentPlayerId { get; set; }
 
     public Player GetPlayer(string playerId)
         => Players.FirstOrDefault(p => p.Id == playerId)
