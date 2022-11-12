@@ -3,8 +3,6 @@ using Keboom.Client.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -26,6 +24,6 @@ builder.Services.AddSingleton<IGameHubClientSideMethods>(x => x.GetRequiredServi
 var app = builder.Build();
 
 //force the starting of the hub
-app.Services.GetRequiredService<GameHubConnection>();
+_ = app.Services.GetRequiredService<GameHubConnection>().Open();
 
 await app.RunAsync();

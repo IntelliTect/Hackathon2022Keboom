@@ -5,15 +5,12 @@ namespace Keboom.Shared;
 
 public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMethods, IGameHubEventHandler
 {
-    HubConnection HubConnection { get; set; }
-    string HubUrl { get; set; }
+    private HubConnection HubConnection { get; }
+    private string HubUrl { get; }
 
     public GameHubConnection(string url)
     {
-
         HubUrl = url;
-
-
         HubConnection = new HubConnectionBuilder()
             .WithUrl(
                 HubUrl,
@@ -34,7 +31,7 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
              )*/
             .Build();
 
-        SetEvents();
+        RegisterEvents();
 
         HubConnection.Closed += async (error) =>
         {
@@ -42,8 +39,6 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
             Console.Error.WriteLine($"Connection lost to hub: {error?.Message}");
             await Open();
         };
-
-        Task.Run(() => Open());
     }
 
     public event EventHandler? ConnectionLost;
@@ -53,7 +48,7 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
     public event EventHandler<EventArgs<GameState>>? GameStarted;
     public event EventHandler<EventArgs<GameState>>? GameStateUpdated;
 
-    private async Task Open()
+    public async Task Open()
     {
         var pauseBetweenFailures = TimeSpan.FromSeconds(20);
         var retryPolicy = Policy
@@ -84,7 +79,7 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
         }
     }
 
-    private void SetEvents()
+    private void RegisterEvents()
     {
         HubConnection.On<string>(
             nameof(IGameHubClientSideMethods.PlayerLeft),
