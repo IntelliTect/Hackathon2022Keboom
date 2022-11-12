@@ -1,9 +1,9 @@
 @inherits ComponentBase<MinefieldViewModel>
 @inject NavigationManager Navigation
 
-@if (ViewModel?.GameState?.Board is { } board)
-{
-    <div class="grid">
+<div>
+    @if (ViewModel?.GameState?.Board is { } board)
+    {
         <div style="--columns: @board.Width; --rows: @board.Height" class="minefield">
             @for (int row = 0; row < board.Height; row++)
             {
@@ -20,7 +20,7 @@
                         @if (space.HasMine)
                         {
                             <button class="cell">
-                                <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag"/>
+                                <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag" />
                             </button>
                         }
                         else
@@ -33,5 +33,5 @@
                 }
             }
         </div>
-    </div>
-}
+    }
+</div>

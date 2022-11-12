@@ -5,7 +5,6 @@
     gap: 0;
     grid-template-columns: repeat(var(--columns), 1fr);
     grid-template-rows: repeat(var(--rows), 1fr);
-    height: 100%;
     max-height: 90vh;
 }
 
@@ -28,4 +27,11 @@
 button.cell {
     min-height: unset;
     min-width: unset;
+}
+
+@media screen and (max-height: 600px) {
+    button.cell img {
+        max-height: 24px;
+        max-width: 24px;
+    }
 }
