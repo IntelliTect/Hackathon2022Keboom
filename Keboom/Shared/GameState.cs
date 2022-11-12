@@ -1,6 +1,6 @@
 ﻿namespace Keboom.Shared;
 
-public class Game
+public class GameState
 {
     public Board? Board { get; set; }
     public Player? Player1 { get; set; }
