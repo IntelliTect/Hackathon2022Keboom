@@ -4,7 +4,7 @@ public static class BoardGenerator
 {
     public static Board CreateBoard(int width, int height, int numberOfMines)
     {
-        var board = new Board(width, height);
+        Board board = new(width, height);
 
         SetMines(board, numberOfMines);
         board.SetAdjacentCounts();
@@ -14,7 +14,7 @@ public static class BoardGenerator
 
     private static void SetMines(Board board, int numberOfMines)
     {
-        var random = new Random();
+        Random random = new();
 
         for (int mine = 0; mine < numberOfMines; mine++)
         {

@@ -44,14 +44,14 @@
         if (GameState is { } gameState &&
             gameState.CurrentPlayer is { } currentPlayer)
         {
-            GameEngine flower = new(gameState, currentPlayer);
-            if (flower.TriggerSpace(space))
+            GameEngine gameEngine = new(gameState, currentPlayer);
+            if (gameEngine.TriggerSpace(space))
             {
                 StateHasChanged();
             }
             else
             {
-                gameState.NextPlayersTurn();
+                gameEngine.NextPlayersTurn();
             }
         }
     }

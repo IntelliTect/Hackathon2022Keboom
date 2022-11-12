@@ -1,16 +1,12 @@
 ﻿namespace Keboom.Shared.Tests;
 
-public class GameFlowerTests
+public class GameEngineTests
 {
     [Fact]
     public void TriggerSapce_Unclaimed_FlaggedToCorrectPlayer()
     {
-        var player = new Player
-        {
-            Id = Guid.NewGuid().ToString()
-        };
-
         var gameState = CreateGameState(true);
+        Player player = gameState.Player1!;
 
         var gameFlower = new GameEngine(gameState, player);
 
@@ -22,15 +18,10 @@ public class GameFlowerTests
     [Fact]
     public void TriggerSapce_Claimed_FlagNotStolen()
     {
-        var player = new Player
-        {
-            Id = Guid.NewGuid().ToString()
-        };
-
-        var player2Id = Guid.NewGuid().ToString();
-
         var gameState = CreateGameState(false);
-
+        Player player = gameState.Player1!;
+        var player2Id = gameState.Player2!.Id;
+        
         var gameFlower = new GameEngine(gameState, player);
 
         gameState.Board![0, 0].ClaimedByPlayer = player2Id;
@@ -43,12 +34,8 @@ public class GameFlowerTests
     [Fact]
     public void TriggerSapce_UnclaimedMine_ScoreAdded()
     {
-        var player = new Player
-        {
-            Id = Guid.NewGuid().ToString()
-        };
-
         var gameState = CreateGameState(true);
+        Player player = gameState.Player1!;
 
         var gameFlower = new GameEngine(gameState, player);
 
@@ -60,12 +47,8 @@ public class GameFlowerTests
     [Fact]
     public void TriggerSapce_ClaimedMine_ScoreUnchanged()
     {
-        var player = new Player
-        {
-            Id = Guid.NewGuid().ToString()
-        };
-
         var gameState = CreateGameState(true);
+        Player player = gameState.Player1!;
 
         var gameFlower = new GameEngine(gameState, player);
 
@@ -81,12 +64,8 @@ public class GameFlowerTests
     [Fact]
     public void TriggerSapce_UnclaimedMine_True()
     {
-        var player = new Player
-        {
-            Id = Guid.NewGuid().ToString()
-        };
-
         var gameState = CreateGameState(true);
+        Player player = gameState.Player1!;
 
         var gameFlower = new GameEngine(gameState, player);
 
@@ -98,12 +77,8 @@ public class GameFlowerTests
     [Fact]
     public void TriggerSapce_UnclaimedNoMine_False()
     {
-        var player = new Player
-        {
-            Id = Guid.NewGuid().ToString()
-        };
-
         var gameState = CreateGameState(false);
+        Player player = gameState.Player1!;
 
         var gameFlower = new GameEngine(gameState, player);
 
@@ -115,15 +90,11 @@ public class GameFlowerTests
     [Fact]
     public void TriggerSapce_UnclaimedZero_OpensAdjacentNonZeros()
     {
-        var player = new Player
-        {
-            Id = Guid.NewGuid().ToString()
-        };
-
         var gameState = CreateGameState(false, 3);
         gameState.Board![1, 2].HasMine = true;
         gameState.Board[2, 1].HasMine = true;
         gameState.Board.SetAdjacentCounts();
+        Player player = gameState.Player1!;
 
         var gameFlower = new GameEngine(gameState, player);
 
@@ -142,9 +113,61 @@ public class GameFlowerTests
         Assert.Null(gameState.Board[2, 2].ClaimedByPlayer);
     }
 
+    [Fact]
+    public void NextPlayersTurn_ShouldSetCurrentPlayerToPlayer2_WhenCurrentPlayerIsPlayer1()
+    {
+        // Arrange
+        var gameState = CreateGameState(false, 3);
+
+        GameEngine gameEngine = new(gameState, gameState.Player1!);
+        gameState.CurrentPlayer = gameState.Player1;
+
+        // Act
+        gameEngine.NextPlayersTurn();
+
+        // Assert
+        Assert.Equal(gameState.Player2, gameState.CurrentPlayer);
+    }
+
+    [Fact]
+    public void NextPlayersTurn_ShouldSetCurrentPlayerToPlayer1_WhenCurrentPlayerIsPlayer2()
+    {
+        // Arrange
+        var gameState = CreateGameState(false, 3);
+        
+        GameEngine gameEngine = new(gameState, gameState.Player1!);
+        gameState.CurrentPlayer = gameState.Player2;
+
+        // Act
+        gameEngine.NextPlayersTurn();
+
+        // Assert
+        Assert.Equal(gameState.Player1, gameState.CurrentPlayer);
+    }
+
+    [Fact]
+    public void NextPlayersTurn_ShouldSetCurrentPlayerToPlayer1_WhenCurrentPlayerIsNull()
+    {
+        // Arrange
+        var gameState = CreateGameState(false, 3);
+
+        GameEngine gameEngine = new(gameState, gameState.Player1!);
+        gameState.CurrentPlayer = null;
+
+        // Act
+        gameEngine.NextPlayersTurn();
+
+        // Assert
+        Assert.Equal(gameState.Player1, gameState.CurrentPlayer);
+    }
+
     private static GameState CreateGameState(bool hasMines, int size = 2)
     {
-        var gameState = new GameState();
+        var gameState = new GameState()
+        {
+            Player1 = new() { Id = Guid.NewGuid().ToString(), Name = "Player 1", Score = 0 },
+            Player2 = new() { Id = Guid.NewGuid().ToString(), Name = "Player 2", Score = 0 },
+        };
         var board = new Board(size, size);
 
         for (var x = 0; x < board.Width; x++)

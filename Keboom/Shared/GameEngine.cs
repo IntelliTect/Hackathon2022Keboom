@@ -36,4 +36,19 @@ public class GameEngine
 
         return false;
     }
+    
+    public void NextPlayersTurn()
+    {
+        int index = GameState.CurrentPlayer is { } current ? GameState.Players.IndexOf(current) : -1;
+        if (index >= 0)
+        {
+            index = (index + 1) % GameState.Players.Count;
+        }
+        else
+        {
+            index = 0;
+        }
+        GameState.CurrentPlayer = GameState.Players[index];
+    }
+
 }
