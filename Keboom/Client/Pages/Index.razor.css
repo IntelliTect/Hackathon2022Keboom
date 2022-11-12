@@ -1,0 +1,9 @@
+﻿.root-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background-image: url('keboom.png');
+    background-size: 100% 100%;
+}
