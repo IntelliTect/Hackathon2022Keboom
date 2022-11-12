@@ -1,0 +1,19 @@
+﻿@page "/GameOver"
+<PageTitle>Game Over</PageTitle>
+
+<p>@Name has won!</p>
+<p>With a score of @Score</p>
+<div>
+    <button value="default">New Game</button>
+    <button id="quitBtn" value="cancel">Too Much Danger</button>
+</div>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Name { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int? Score { get; set; }
+}
