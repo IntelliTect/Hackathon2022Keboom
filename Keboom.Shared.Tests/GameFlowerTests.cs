@@ -13,7 +13,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = 1
+            Id = Guid.NewGuid()
         };
 
         var gameState = CreateGameState(true);
@@ -30,18 +30,20 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = 1
+            Id = Guid.NewGuid()
         };
+
+        var player2Id = Guid.NewGuid();
 
         var gameState = CreateGameState(false);
 
         var gameFlower = new GameFlower(gameState, player);
 
-        gameState.Board!.Grid[0, 0].ClaimedByPlayer = 2;
+        gameState.Board!.Grid[0, 0].ClaimedByPlayer = player2Id;
 
         gameFlower.TriggerSpace(gameState.Board!.Grid[0, 0]);
 
-        Assert.Equal(2, gameState.Board.Grid[0, 0].ClaimedByPlayer);
+        Assert.Equal(player2Id, gameState.Board.Grid[0, 0].ClaimedByPlayer);
     }
 
     [Fact]
@@ -49,7 +51,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = 1
+            Id = Guid.NewGuid()
         };
 
         var gameState = CreateGameState(true);
@@ -66,14 +68,16 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = 1
+            Id = Guid.NewGuid()
         };
 
         var gameState = CreateGameState(true);
 
         var gameFlower = new GameFlower(gameState, player);
 
-        gameState.Board!.Grid[0, 0].ClaimedByPlayer = 2;
+        var player2Id = Guid.NewGuid();
+
+        gameState.Board!.Grid[0, 0].ClaimedByPlayer = player2Id;
 
         gameFlower.TriggerSpace(gameState.Board!.Grid[0, 0]);
 
@@ -85,7 +89,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = 1
+            Id = Guid.NewGuid()
         };
 
         var gameState = CreateGameState(true);
@@ -102,7 +106,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = 1
+            Id = Guid.NewGuid()
         };
 
         var gameState = CreateGameState(false);

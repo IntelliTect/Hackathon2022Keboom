@@ -5,7 +5,7 @@ public class BoardSpace
     public bool HasMine { get; set; }
     public int AdjacentMines { get; set; }
 
-    public int? ClaimedByPlayer { get; set; }
+    public Guid? ClaimedByPlayer { get; set; }
     public int X { get; }
     public int Y { get; }
 
