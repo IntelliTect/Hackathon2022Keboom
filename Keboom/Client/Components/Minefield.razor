@@ -2,10 +2,12 @@
 <h1>Minefield</h1>
 
 <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
-@for(int row = 1; row <= GameState?.Board?.Height; row++) {
-    @for(int col = 1; col <= GameState?.Board?.Width; col++) {
-        <button class="cell">
-        </button>
+@for(int row = 0; row < GameState?.Board?.Height; row++) {
+    @for(int col = 0; col < GameState?.Board?.Width; col++) {
+            int c = col;
+            int r = row;
+            <button class="cell" @onclick="@(_ => OpenCell(c, r))">
+            </button>
     }
 }
 </div>
@@ -14,4 +16,15 @@
 {
     [CascadingParameter(Name = "GameState")]
     public GameState? GameState { get; set; }
+
+    private void OpenCell(int column, int row)
+    {
+        if (GameState is { } gameState &&
+            gameState.CurrentPlayer is { } currentPlayer &&
+            gameState.Board is { } board)
+        {
+            GameFlower flower = new(gameState, currentPlayer);
+            flower.TriggerSpace(board[column, row]);
+        }
+    }
 }

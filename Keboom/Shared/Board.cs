@@ -5,8 +5,8 @@ public class Board
 {
     public BoardSpace this[int x, int y]
     {
-        get { return FlatGrid[x * Width + y]; }
-        set { FlatGrid[x * Width + y] = value; }
+        get => FlatGrid[x * Width + y];
+        set => FlatGrid[x * Width + y] = value;
     }
 
     public BoardSpace[] FlatGrid { get; set; }
