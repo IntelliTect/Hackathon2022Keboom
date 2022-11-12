@@ -13,4 +13,7 @@
     <ProjectReference Include="..\Shared\Keboom.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+  </ItemGroup>
+
 </Project>
