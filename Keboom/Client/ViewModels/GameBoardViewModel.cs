@@ -9,15 +9,8 @@ public class GameBoardViewModel : ViewModelBase
 
     public override Task OnInitializedAsync()
     {
-        var bg = new BoardGenerator();
-        GameState = new GameState
-        {
-            Board = bg.CreateBoard(10, 10, 22),
-            Player1 = new Player { Id = int.MaxValue, Name = "Player 1", Score = 0 },
-            Player2 = new Player { Id = int.MinValue, Name = "Player 2", Score = 0 }
-        };
 
-        GameState.CurrentPlayer = GameState.Player1;
+        //TODO swagger client
         return base.OnInitializedAsync();
     }
 }
