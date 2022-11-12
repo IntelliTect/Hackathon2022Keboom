@@ -2,14 +2,32 @@
 <h1>Minefield</h1>
 
 <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
-@for(int row = 0; row < GameState?.Board?.Height; row++) {
-    @for(int col = 0; col < GameState?.Board?.Width; col++) {
-            int c = col;
-            int r = row;
-            <button class="cell" @onclick="@(_ => OpenCell(c, r))">
-            </button>
+    @for (int row = 0; row < GameState?.Board?.Height; row++)
+    {
+        @for (int col = 0; col < GameState?.Board?.Width; col++)
+        {
+            var board = GameState!.Board!;
+            BoardSpace space = board[col, row];
+            if (space.ClaimedByPlayer is null)
+            {
+                <button class="cell" @onclick="@(_ => OpenCell(space))">
+                </button>
+            }
+            else
+            {
+                <button class="cell">
+                    @if(space.HasMine)
+                    {
+                        <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag"/>
+                    }
+                    else
+                    {
+                        @space.AdjacentMines;
+                    }
+                </button>
+            }
+        }
     }
-}
 </div>
 
 @code
@@ -17,14 +35,33 @@
     [CascadingParameter(Name = "GameState")]
     public GameState? GameState { get; set; }
 
-    private void OpenCell(int column, int row)
+    private void OpenCell(BoardSpace space)
     {
         if (GameState is { } gameState &&
-            gameState.CurrentPlayer is { } currentPlayer &&
-            gameState.Board is { } board)
+            gameState.CurrentPlayer is { } currentPlayer)
         {
             GameFlower flower = new(gameState, currentPlayer);
-            flower.TriggerSpace(board[column, row]);
+            if (flower.TriggerSpace(space))
+            {
+                StateHasChanged();
+            }
         }
+    }
+
+    private string GetPlayerFlag(Guid? playerId)
+    {
+        if (GameState is { } gameState && playerId is not null)
+        {
+            Player? player = gameState.Players.Single(x => playerId == x?.Id);
+            return Array.IndexOf(gameState.Players, player) switch
+            {
+                0 => "RedFlag.gif",
+                1 => "YellowFlag.gif",
+                2 => "GreenFlag.gif",
+                3 => "BlueFlag.gif",
+                _ => throw new NotImplementedException()
+            };
+        }
+        throw new InvalidOperationException();
     }
 }
