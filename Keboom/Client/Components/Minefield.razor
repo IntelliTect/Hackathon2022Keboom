@@ -25,9 +25,9 @@
                     }
                     else
                     {
-                        <dic class="cell opened">
+						<b class="cell opened" style="color:@GetCellColor(@space.AdjacentMines)">
                             @space.AdjacentMines
-                        </dic>
+                        </b>
                     }
                 }
             }
@@ -38,34 +38,59 @@
 
 @code
 {
-    [CascadingParameter(Name = "GameState")]
-    public GameState? GameState { get; set; }
+	[CascadingParameter(Name = "GameState")]
+	public GameState? GameState { get; set; }
 
-    private void OpenCell(BoardSpace space)
-    {
-        if (GameState is { } gameState &&
-            gameState.CurrentPlayer is { } currentPlayer)
-        {
-            GameEngine gameEngine = new(gameState, currentPlayer);
-            if (gameEngine.TriggerSpace(space))
-            {
-                StateHasChanged();
-            }
-            else
-            {
-                gameEngine.NextPlayersTurn();
-            }
-        }
-    }
+	private void OpenCell(BoardSpace space)
+	{
+		if (GameState is { } gameState &&
+			gameState.CurrentPlayer is { } currentPlayer)
+		{
+			GameEngine gameEngine = new(gameState, currentPlayer);
+			if (gameEngine.TriggerSpace(space))
+			{
+				StateHasChanged();
+			}
+			else
+			{
+				gameEngine.NextPlayersTurn();
+			}
+		}
+	}
 
-    private string GetPlayerFlag(string playerId)
-    {
-        if (GameState is { } gameState && playerId is not null)
-        {
-            Player player = gameState.GetPlayer(playerId);
+	private string GetPlayerFlag(string playerId)
+	{
+		if (GameState is { } gameState && playerId is not null)
+		{
+			Player player = gameState.GetPlayer(playerId);
 
-            return PlayerColorConverter.GetFlagImage(player.Color);
-        }
-        throw new InvalidOperationException();
-    }
+			return PlayerColorConverter.GetFlagImage(player.Color);
+		}
+		throw new InvalidOperationException();
+	}
+
+	private string GetCellColor(int num)
+	{
+		switch (num)
+		{
+			case 1:
+				return "DeepSkyBlue";
+			case 2:
+				return "ForestGreen";
+			case 3:
+				return "FireBrick";
+			case 4:
+				return "MidnightBlue";
+			case 5:
+				return "Maroon";
+			case 6:
+				return "Aquamarine";
+			case 7:
+				return "DarkMagenta";
+			case 8:
+				return "DeepPink";
+			default:
+				return "Silver";
+		}
+	}
 }
