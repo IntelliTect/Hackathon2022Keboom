@@ -1,3 +1,6 @@
+using System.Text.Json.Serialization;
+using Keboom.Server.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,31 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services
+                .AddSignalR(
+                    hubOptions =>
+                    {
+                        hubOptions.EnableDetailedErrors = true;
+                    }
+                )
+                .AddJsonProtocol(
+                    options =>
+                    {
+                        options.PayloadSerializerOptions.PropertyNamingPolicy =
+                            System.Text.Json.JsonNamingPolicy.CamelCase;
+                        options.PayloadSerializerOptions.ReferenceHandler =
+                            ReferenceHandler.IgnoreCycles;
+                    }
+                ).AddHubOptions<GameHub>(
+        options =>
+        { //optional options
+            options.KeepAliveInterval = TimeSpan.FromSeconds(15);
+            options.ClientTimeoutInterval = TimeSpan.FromMinutes(1);
+        }
+    );
+
+builder.Services.AddSingleton<IGameStore>(new GameStore());
 
 var app = builder.Build();
 
@@ -37,6 +65,9 @@ app.UseRouting();
 
 app.MapRazorPages();
 app.MapControllers();
+
+app.MapHub<GameHub>($"/{nameof(GameHub)}");
+
 app.MapFallbackToFile("index.html");
 
 app.Run();

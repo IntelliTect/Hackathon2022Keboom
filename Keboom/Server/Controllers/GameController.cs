@@ -19,13 +19,15 @@ public class GameController : ControllerBase
     [Route(nameof(CreateNewGame))]
     public GameState CreateNewGame(string player1Name, string player2Name)
     {
-        return new GameState()
+        var newGame =  new GameState()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid().ToString(),
             Board = BoardGenerator.CreateBoard(4, 4, 5),
-            Player1 = new Player() { Id = Guid.NewGuid(), Name=player1Name },
-            Player2 = new Player() { Id = Guid.NewGuid(), Name = player2Name }
+            Player1 = new Player() { Id = Guid.NewGuid().ToString(), Name=player1Name },
+            Player2 = new Player() { Id = Guid.NewGuid().ToString(), Name = player2Name }
         };
+
+        return newGame;
     }
 
 }

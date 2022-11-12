@@ -1,4 +1,6 @@
 ﻿using Keboom.Shared;
+using Microsoft.AspNetCore.Components;
+
 
 namespace Keboom.Client.ViewModels;
 
@@ -6,6 +8,12 @@ public class GameBoardViewModel : ViewModelBase
 {
 
     public GameState? GameState { get; private set; }
+    public GameHubConnection GameHubConnection { get; }
+
+    public GameBoardViewModel(GameHubConnection gameHubConnection)
+    {
+        GameHubConnection = gameHubConnection;
+    }
 
     public override Task OnInitializedAsync()
     {
@@ -16,6 +24,8 @@ public class GameBoardViewModel : ViewModelBase
             Player2 = new Player { Id = Guid.NewGuid(), Name = "Player 2", Score = 0 }
         };
 
+        GameHubConnection.CreateGame("Inigo");
+        
         GameState.CurrentPlayer = GameState.Player1;
         return base.OnInitializedAsync();
     }
