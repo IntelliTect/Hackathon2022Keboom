@@ -44,8 +44,6 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
     public event EventHandler? ConnectionLost;
     public event EventHandler? Connected;
     public event EventHandler<EventArgs<string>>? PlayerLeft;
-    public event EventHandler<EventArgs<string>>? NewGameId;
-    public event EventHandler<EventArgs<GameState>>? GameStarted;
     public event EventHandler<EventArgs<GameState>>? GameStateUpdated;
 
     public async Task Open()

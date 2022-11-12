@@ -2,7 +2,6 @@
 
 public class GameState
 {
-    private Player? currentPlayer;
     public string Id { get; set; } = "";
     public Board? Board { get; set; }
     public Player? Player1 => Players.FirstOrDefault();
