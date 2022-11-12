@@ -12,10 +12,21 @@ public partial class Minefield
         set => ViewModel.GameState = value;
     }
 
+    [CascadingParameter(Name = "ClientPlayer")]
+    public Player? ClientPlayer { get; set; }
+
     protected override void OnInitialized()
     {
         ViewModel.DetonateMines = EndGame;
         base.OnInitialized();
+    }
+
+    private void OnOpenCellClick(BoardSpace space)
+    {
+        if (ClientPlayer?.Id == GameState?.CurrentPlayer?.Id)
+        {
+            ViewModel.OpenCellCommand.Execute(space);
+        }
     }
 
     private void EndGame()

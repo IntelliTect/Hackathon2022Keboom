@@ -8,6 +8,8 @@ namespace Keboom.Client.ViewModels;
 public class GameBoardViewModel : ViewModelBase
 {
     public GameState? GameState { get; private set; }
+    public Player ClientPlayer { get; set; }
+
     public IGameHubClientSideMethods GameEvents { get; }
     public IGameHubServerSideMethods ServerSideMethods { get; }
     public HttpClient HttpClient { get; }
@@ -39,13 +41,19 @@ public class GameBoardViewModel : ViewModelBase
             playerName = "foo";
         }
 
+        ClientPlayer = new Player()
+        {
+            Name = playerName,
+            Id = Guid.NewGuid().ToString()
+        };
+
         var joinGameRequest = new JoinGameRequest
         {
             GameName = gameName,
             BoardWidth = 8,
             BoardHeight = 8,
             NumberOfMines = 15,
-            PlayerId = Guid.NewGuid().ToString(),
+            PlayerId = ClientPlayer.Id,
             PlayerName = playerName
         };
 

@@ -12,7 +12,8 @@
                     BoardSpace space = board[col, row];
                     if (space.ClaimedByPlayer is null)
                     {
-                        <button class="cell" @onclick="@(_ => ViewModel.OpenCellCommand.Execute(space))">
+                        <button class="cell"
+                                @onclick="() => OnOpenCellClick(space)">
                         </button>
                     }
                     else
