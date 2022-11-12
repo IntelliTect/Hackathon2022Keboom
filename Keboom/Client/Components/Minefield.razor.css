@@ -21,7 +21,9 @@
     text-align: center;
 }
 
-.cell + .opened { border-style: groove; }
+.opened {
+    border-style: groove;
+}
 
 button.cell {
     min-height: unset;
