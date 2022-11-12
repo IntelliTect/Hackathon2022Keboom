@@ -1,12 +1,17 @@
-﻿@inherits LayoutBase
-<PageTitle>@PageTitle</PageTitle>
-<div class="window" style="margin: 32px; width: 250px">
-    <div class="title-bar">
-        <div class="title-bar-text">
-            @PageTitle
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
-    </div>
-    <div class="window-body">
-        @Body
-    </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
 </div>
