@@ -36,17 +36,4 @@ public class GameFlower
 
         return false;
     }
-
-    private void OpenBlanks(BoardSpace boardSpace)
-    {
-        boardSpace.ClaimedByPlayer = Player.Id;
-
-        foreach (var adjacentSpace in GameState.Board!.GetAdjacent(boardSpace.X, boardSpace.Y))
-        {
-            if (adjacentSpace.ClaimedByPlayer is null && adjacentSpace.AdjacentMines == 0 && !adjacentSpace.HasMine)
-            {
-                OpenBlanks(adjacentSpace);
-            }
-        }
-    }
 }

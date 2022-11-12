@@ -12,6 +12,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // ViewModels
 builder.Services.AddTransient<GameBoardViewModel>();
+builder.Services.AddTransient<ScoreBoardViewModel>();
 
 builder.Services.AddSingleton(x=>new GameHubConnection(x.GetRequiredService<NavigationManager>().ToAbsoluteUri("/gamehub").ToString()));
 

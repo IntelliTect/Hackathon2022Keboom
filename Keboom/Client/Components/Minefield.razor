@@ -1,33 +1,37 @@
 ﻿@using Keboom.Shared
+
 <h1>Minefield</h1>
 
-<div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
-    @for (int row = 0; row < GameState?.Board?.Height; row++)
-    {
-        @for (int col = 0; col < GameState?.Board?.Width; col++)
+<div style="flex-grow: 4;">
+    <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
+        @for (int row = 0; row < GameState?.Board?.Height; row++)
         {
-            var board = GameState!.Board!;
-            BoardSpace space = board[col, row];
-            if (space.ClaimedByPlayer is null)
+            @for (int col = 0; col < GameState?.Board?.Width; col++)
             {
-                <button class="cell" @onclick="@(_ => OpenCell(space))">
-                </button>
-            }
-            else
-            {
-                <button class="cell">
-                    @if(space.HasMine)
-                    {
-                        <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag"/>
-                    }
-                    else
-                    {
-                        @space.AdjacentMines;
-                    }
-                </button>
+                var board = GameState!.Board!;
+                BoardSpace space = board[col, row];
+                if (space.ClaimedByPlayer is null)
+                {
+                    <button class="cell" @onclick="@(_ => OpenCell(space))">
+                    </button>
+                }
+                else
+                {
+                    <button class="cell">
+                        @if (space.HasMine)
+                        {
+                            <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag" />
+                        }
+                        else
+                        {
+                            @space.AdjacentMines
+                        }
+                    </button>
+                }
             }
         }
-    }
+
+    </div>
 </div>
 
 @code

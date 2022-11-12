@@ -1,0 +1,30 @@
+﻿@using Keboom.Shared;
+@inherits ComponentBase<ScoreBoardViewModel>
+
+
+<div style="flex-grow: 1;">
+    <h3>ScoreBoard</h3>
+
+    @if (ViewModel.GameHasPlayers)
+    {
+        <h4>Players:</h4>
+        <dl>
+            @if (ViewModel?.GameState?.Players is not null)
+            {
+                foreach (Player? player in ViewModel.GameState.Players)
+                {
+                    if (player is not null)
+                    {
+                        <dt>Name:</dt>
+                        <dd>@player.Name</dd>
+                        <dt>Score:</dt>
+                        <dd>@player.Score</dd>
+                    }
+                }
+            }
+        </dl>
+    }
+
+
+</div>
+
