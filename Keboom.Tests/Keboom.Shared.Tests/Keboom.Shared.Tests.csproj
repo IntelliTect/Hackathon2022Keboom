@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Keboom\Shared\Keboom.Shared.csproj" />
+    <ProjectReference Include="..\..\Keboom\Shared\Keboom.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Keboom.Shared.Tests;
+﻿namespace Keboom.Shared.Tests;
 
 public class GameFlowerTests
 {
