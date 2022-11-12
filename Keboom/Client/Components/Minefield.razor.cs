@@ -16,7 +16,7 @@ public partial class Minefield
     {
         return num switch
         {
-            1 => "DeepSkyBlue",
+            1 => "Orchid",
             2 => "ForestGreen",
             3 => "FireBrick",
             4 => "MidnightBlue",
