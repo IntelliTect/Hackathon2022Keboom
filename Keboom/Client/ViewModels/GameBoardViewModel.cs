@@ -2,10 +2,12 @@
 using System.Runtime.CompilerServices;
 using Keboom.Shared;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Keboom.Client.ViewModels;
 
-public class GameBoardViewModel : ViewModelBase
+public partial class GameBoardViewModel : ViewModelBase
 {
     public GameState? GameState { get; private set; }
     public Player ClientPlayer { get; set; }
@@ -14,13 +16,18 @@ public class GameBoardViewModel : ViewModelBase
     public IGameHubServerSideMethods ServerSideMethods { get; }
     public HttpClient HttpClient { get; }
     public NavigationManager Navigation { get; }
+    public IJSRuntime JSRuntime { get; }
 
-    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods, HttpClient httpClient, NavigationManager navigation)
+    [ObservableProperty]
+    private string? _GameInviteUrl;
+
+    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods, HttpClient httpClient, NavigationManager navigation, IJSRuntime jSRuntime)
     {
         GameEvents = hubEvents;
         ServerSideMethods = hubMethods;
         HttpClient = httpClient;
         Navigation = navigation;
+        JSRuntime = jSRuntime;
     }
 
     public override async Task OnInitializedAsync()
@@ -77,6 +84,8 @@ public class GameBoardViewModel : ViewModelBase
 
         await ServerSideMethods.JoinGame(gameName);
 
+        GameInviteUrl = $"{Navigation.BaseUri}?gamename={gameName}";
+
         await base.OnInitializedAsync();
     }
 
@@ -85,5 +94,10 @@ public class GameBoardViewModel : ViewModelBase
         Console.WriteLine("Got new game state");
         GameState = e.Value;
         NotifyStateChanged();
+    }
+
+    public async Task CopyGameLinkToClipboard()
+    {
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", GameInviteUrl);
     }
 }

@@ -7,13 +7,14 @@
         <CascadingValue Value="@ViewModel.ClientPlayer" Name="ClientPlayer">
             @if (ViewModel.GameState?.GameStatus != GameStatus.WaitingForPlayersToJoin) {
 
-                <Minefield></Minefield>
-                <ScoreBoard></ScoreBoard>
-            } else
-            {
-                <div>Waiting for other players</div>
-                <div>Game Name: @ViewModel.GameState.Id </div>
-            }
+            <Minefield></Minefield>
+            <ScoreBoard></ScoreBoard>
+        } else
+        {
+            <div>Waiting for other players</div>
+            <div>Game Name: @ViewModel.GameState.Id</div>
+            <button type="button" class="btn btn-primary" @onclick="ViewModel.CopyGameLinkToClipboard">Copy Shareable Game Link</button>
+        }
 
         </CascadingValue>
     </CascadingValue>
