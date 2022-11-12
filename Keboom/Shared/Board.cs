@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Keboom.Shared
-{
-    public class Board
-    {
-        BoardSpace[,] Grid { get; init; }
+namespace Keboom.Shared;
 
-        public Board(int width, int height)
-        {
-            Grid = new BoardSpace[width, height];
-        }
+public class Board
+{
+    public BoardSpace[,] Grid { get; init; }
+
+    public Board(int width, int height)
+    {
+        Grid = new BoardSpace[width, height];
     }
 }
