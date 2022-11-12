@@ -1,4 +1,5 @@
-﻿@using Keboom.Shared
+﻿@using Keboom.Client.Converters;
+@using Keboom.Shared
 
 <div style="flex-grow: 4;">
     <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
@@ -61,16 +62,9 @@
     {
         if (GameState is { } gameState && playerId is not null)
         {
-            return gameState.Players.Select(x => x?.Id)
-                    .ToList()
-                    .IndexOf(playerId) switch
-            {
-                0 => "RedFlag.gif",
-                1 => "YellowFlag.gif",
-                2 => "GreenFlag.gif",
-                3 => "BlueFlag.gif",
-                _ => throw new NotImplementedException()
-            };
+            Player player = gameState.GetPlayer(playerId);
+
+            return PlayerColorConverter.GetFlagImage(player.Color);
         }
         throw new InvalidOperationException();
     }

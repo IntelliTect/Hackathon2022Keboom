@@ -1,4 +1,5 @@
-﻿@using Keboom.Shared;
+﻿@using Keboom.Client.Converters;
+@using Keboom.Shared;
 @inherits ComponentBase<ScoreBoardViewModel>
 
 
@@ -16,7 +17,13 @@
                     if (player is not null)
                     {
                         <dt>Name:</dt>
-                        <dd>@player.Name</dd>
+                        <dd>
+                            @player.Name
+                            @if (player.Id == ViewModel.GameState.CurrentPlayer?.Id)
+                            {
+                                <img src="@PlayerColorConverter.GetFlagImage(player.Color)" alt="current player flag" />
+                            }
+                        </dd>
                         <dt>Score:</dt>
                         <dd>@player.Score</dd>
                     }

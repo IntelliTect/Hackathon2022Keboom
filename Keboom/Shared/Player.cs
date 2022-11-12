@@ -20,4 +20,5 @@ public class Player
         }
     }
     public string? Id { get; set; }
+    public PlayerColor Color { get; set; }
 }

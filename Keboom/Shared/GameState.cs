@@ -2,14 +2,33 @@
 
 public class GameState
 {
-    public string Id { get; set; } = default!;
+    private Player? currentPlayer;
+
+    public event EventHandler? CurrentPlayerChanged;
+
+    public string Id { get; set; } = "";
     public Board? Board { get; set; }
     public Player? Player1 { get; set; }
     public Player? Player2 { get; set; }
 
     public List<Player> Players => EnumeratePlayers().ToList();
 
-    public Player? CurrentPlayer { get; set; }
+    public Player? CurrentPlayer
+    {
+        get => currentPlayer;
+        set
+        {
+            if (currentPlayer != value)
+            {
+                currentPlayer = value;
+                CurrentPlayerChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    public Player GetPlayer(string playerId)
+        => Players.FirstOrDefault(p => p.Id == playerId)
+            ?? throw new ArgumentException($"Player with id {playerId} not found");
 
     private IEnumerable<Player> EnumeratePlayers()
     {

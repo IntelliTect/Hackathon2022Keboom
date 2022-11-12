@@ -12,6 +12,7 @@ public partial class ScoreBoardViewModel : ViewModelBase
     {
         if (_gameState is { } oldGameState)
         {
+            oldGameState.CurrentPlayerChanged -= CurrentPlayerChanged;
             oldGameState.Players.ForEach(p =>
             {
                 p.ScoreChanged -= ScoreChanged;
@@ -19,6 +20,8 @@ public partial class ScoreBoardViewModel : ViewModelBase
         }
         if (value is not null)
         {
+            value.CurrentPlayerChanged += CurrentPlayerChanged;
+
             value.Players.ForEach(p =>
             {
                 p.ScoreChanged -= ScoreChanged;
@@ -26,7 +29,13 @@ public partial class ScoreBoardViewModel : ViewModelBase
             });
         }
     }
-    
+
+    private void CurrentPlayerChanged(object? sender, EventArgs e)
+    {
+        //TODO Not sure the best way to have the VM trigger a render
+        OnPropertyChanged(nameof(GameState));
+    }
+
     private void ScoreChanged(object? sender, EventArgs e)
     {
         //TODO Not sure the best way to have the VM trigger a render

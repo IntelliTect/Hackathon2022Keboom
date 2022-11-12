@@ -1,5 +1,4 @@
 ﻿using Keboom.Shared;
-using Microsoft.AspNetCore.Components;
 
 
 namespace Keboom.Client.ViewModels;
@@ -27,19 +26,29 @@ public class GameBoardViewModel : ViewModelBase
 
         GameEvents.GameStateUpdated -= OnGameStateUpdated;
         GameEvents.GameStateUpdated += OnGameStateUpdated;
-
-
-
+        
         GameState = new GameState
         {
             Board = BoardGenerator.CreateBoard(8, 8, 15),
-            Player1 = new Player { Id = Guid.NewGuid().ToString(), Name = "Player 1", Score = 0 },
-            Player2 = new Player { Id = Guid.NewGuid().ToString(), Name = "Player 2", Score = 0 }
+            Player1 = new Player
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Player 1",
+                Score = 0,
+                Color = PlayerColor.Red
+            },
+            Player2 = new Player
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Player 2",
+                Score = 0,
+                Color = PlayerColor.Yellow
+            }
         };
 
 
         ServerSideMethods.CreateGame("Inigo");
-        
+
         GameState.CurrentPlayer = GameState.Player1;
         return base.OnInitializedAsync();
     }
