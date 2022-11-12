@@ -68,8 +68,8 @@ public class GameHub : Hub, IGameHubServerSideMethods
     public async Task GameState(GameState gameState)
     {
         await Clients
-            .OthersInGroup(gameState.Id)
-            .SendAsync(nameof(GameState), gameState);
+            .Group(gameState.Id)
+            .SendAsync(nameof(IGameHubClientSideMethods.GameStateUpdated), gameState);
     }
 
 }

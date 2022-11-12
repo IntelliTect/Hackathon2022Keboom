@@ -94,4 +94,5 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
 
     public Task GameState(GameState gameState) => HubConnection.InvokeAsync(nameof(IGameHubServerSideMethods.GameState), gameState);
     public Task LeaveGame() => HubConnection.InvokeAsync(nameof(IGameHubServerSideMethods.LeaveGame));
+    public Task JoinGame(string gameId) => HubConnection.InvokeAsync(nameof(IGameHubServerSideMethods.JoinGame), gameId);
 }

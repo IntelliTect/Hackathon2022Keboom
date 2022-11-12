@@ -1,4 +1,8 @@
-﻿namespace Keboom.Client.ViewModels;
+﻿using System.Net.Http.Json;
+using Keboom.Shared;
+using Microsoft.AspNetCore.Components;
+
+namespace Keboom.Client.ViewModels;
 
 public class GameBoardViewModel : ViewModelBase
 {
@@ -6,12 +10,14 @@ public class GameBoardViewModel : ViewModelBase
     public IGameHubClientSideMethods GameEvents { get; }
     public IGameHubServerSideMethods ServerSideMethods { get; }
     public HttpClient HttpClient { get; }
+    public NavigationManager NavigationManager { get; }
 
-    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods, HttpClient httpClient)
+    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods, HttpClient httpClient, NavigationManager navigationManager)
     {
         GameEvents = hubEvents;
         ServerSideMethods = hubMethods;
         HttpClient = httpClient;
+        NavigationManager = navigationManager;
     }
 
     public override async Task OnInitializedAsync()
@@ -47,8 +53,14 @@ public class GameBoardViewModel : ViewModelBase
 
         GameState = await response2.Content.ReadFromJsonAsync<GameState>();
 
+        await ServerSideMethods.JoinGame(gameName);
+
         await base.OnInitializedAsync();
     }
 
-    private void OnGameStateUpdated(object? sender, EventArgs<GameState> e) => throw new NotImplementedException();
+    private void OnGameStateUpdated(object? sender, EventArgs<GameState> e)
+    {
+        Console.WriteLine("Got new game state");
+        GameState = e.Value;
+    }
 }

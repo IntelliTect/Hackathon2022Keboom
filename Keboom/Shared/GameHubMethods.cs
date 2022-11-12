@@ -11,5 +11,6 @@ public record EventArgs<T>(T Value);
 public interface IGameHubServerSideMethods
 {
     Task GameState(GameState gameState);
+    Task JoinGame(string gameId);
     Task LeaveGame();
 }

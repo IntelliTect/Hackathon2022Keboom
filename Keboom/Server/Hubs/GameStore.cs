@@ -54,6 +54,7 @@ public class GameStore : IGameStore
     public void RemoveFromGame(string playerId)
     {
         if (!PlayerIdToGameId.ContainsKey(playerId)){
+
             return;
         }
 

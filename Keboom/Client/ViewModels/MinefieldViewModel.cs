@@ -3,10 +3,16 @@ namespace Keboom.Client.ViewModels;
 
 public partial class MinefieldViewModel : ViewModelBase
 {
+    public MinefieldViewModel(IGameHubServerSideMethods hubMethods) {
+        HubMethods = hubMethods;
+    }
+
     [ObservableProperty]
     private GameState? _gameState;
 
     public Action? DetonateMines { get; set; }
+
+    public IGameHubServerSideMethods HubMethods { get; }
 
     [RelayCommand]
     private void OpenCell(BoardSpace space)
@@ -27,6 +33,8 @@ public partial class MinefieldViewModel : ViewModelBase
             {
                 gameEngine.NextPlayersTurn();
             }
+
+            HubMethods.GameState(gameState);
         }
     }
 }
