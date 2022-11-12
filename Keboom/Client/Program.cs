@@ -14,6 +14,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddTransient<GameBoardViewModel>();
 builder.Services.AddTransient<ScoreBoardViewModel>();
 builder.Services.AddTransient<MinefieldViewModel>();
+builder.Services.AddTransient<IndexViewModel>();
 
 builder.Services.AddSingleton(x=>new GameHubConnection(x.GetRequiredService<NavigationManager>().ToAbsoluteUri("/gamehub").ToString()));
 

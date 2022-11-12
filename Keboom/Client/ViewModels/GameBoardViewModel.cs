@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 using Keboom.Shared;
 using Microsoft.AspNetCore.Components;
 
@@ -10,14 +11,14 @@ public class GameBoardViewModel : ViewModelBase
     public IGameHubClientSideMethods GameEvents { get; }
     public IGameHubServerSideMethods ServerSideMethods { get; }
     public HttpClient HttpClient { get; }
-    public NavigationManager NavigationManager { get; }
+    public NavigationManager Navigation { get; }
 
-    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods, HttpClient httpClient, NavigationManager navigationManager)
+    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods, HttpClient httpClient, NavigationManager navigation)
     {
         GameEvents = hubEvents;
         ServerSideMethods = hubMethods;
         HttpClient = httpClient;
-        NavigationManager = navigationManager;
+        Navigation = navigation;
     }
 
     public override async Task OnInitializedAsync()
@@ -25,7 +26,18 @@ public class GameBoardViewModel : ViewModelBase
         GameEvents.GameStateUpdated -= OnGameStateUpdated;
         GameEvents.GameStateUpdated += OnGameStateUpdated;
 
-        var gameName = Guid.NewGuid().ToString();
+        Navigation.TryGetQueryString("gameName", out string? gameName);
+        Navigation.TryGetQueryString("playerName", out string? playerName);
+
+        if (gameName is null)
+        {
+             gameName = Guid.NewGuid().ToString();
+        }
+
+        if (playerName is null)
+        {
+            playerName = "foo";
+        }
 
         var joinGameRequest = new JoinGameRequest
         {
@@ -34,7 +46,7 @@ public class GameBoardViewModel : ViewModelBase
             BoardHeight = 8,
             NumberOfMines = 15,
             PlayerId = Guid.NewGuid().ToString(),
-            PlayerName = $"Player {Guid.NewGuid()}"
+            PlayerName = playerName
         };
 
         using var response = await HttpClient.PostAsJsonAsync("/game", joinGameRequest);

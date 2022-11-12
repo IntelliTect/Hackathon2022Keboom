@@ -1,4 +1,5 @@
-﻿@page "/"
+﻿@inherits ComponentBase<IndexViewModel>
+@page "/"
 
 <HeroImage>
     <Content>
@@ -7,6 +8,11 @@
                 Begin New Game
             </button>
         </NavLink>
+
+        <h2>Join Game</h2>
+        <InputText @bind-Value="ViewModel.GameName"></InputText>
+        <h2>Your Name</h2>
+        <InputText @bind-Value="ViewModel.JoiningPlayerName"></InputText>
     </Content>
 </HeroImage>
 
