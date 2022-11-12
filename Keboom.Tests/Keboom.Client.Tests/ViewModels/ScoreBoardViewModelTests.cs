@@ -1,6 +1,4 @@
 ﻿using Keboom.Client.ViewModels;
-using Keboom.Shared;
-using Moq.AutoMock;
 
 namespace Keboom.Client.Tests.ViewModels;
 
