@@ -1,8 +1,7 @@
 ﻿@using Keboom.Client.Converters;
 @using Keboom.Shared
 
-
-<div style="flex-grow: 4;">
+<div class="grid">
     <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
         @for (int row = 0; row < GameState?.Board?.Height; row++)
         {
