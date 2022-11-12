@@ -7,7 +7,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid().ToString()
         };
 
         var gameState = CreateGameState(true);
@@ -24,10 +24,10 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid().ToString()
         };
 
-        var player2Id = Guid.NewGuid();
+        var player2Id = Guid.NewGuid().ToString();
 
         var gameState = CreateGameState(false);
 
@@ -45,7 +45,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid().ToString()
         };
 
         var gameState = CreateGameState(true);
@@ -62,14 +62,14 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid().ToString()
         };
 
         var gameState = CreateGameState(true);
 
         var gameFlower = new GameFlower(gameState, player);
 
-        var player2Id = Guid.NewGuid();
+        var player2Id = Guid.NewGuid().ToString();
 
         gameState.Board![0, 0].ClaimedByPlayer = player2Id;
 
@@ -83,7 +83,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid().ToString()
         };
 
         var gameState = CreateGameState(true);
@@ -100,7 +100,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid().ToString()
         };
 
         var gameState = CreateGameState(false);
@@ -117,7 +117,7 @@ public class GameFlowerTests
     {
         var player = new Player
         {
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid().ToString()
         };
 
         var gameState = CreateGameState(false, 3);

@@ -7,7 +7,21 @@ public class GameState
     public Player? Player1 { get; set; }
     public Player? Player2 { get; set; }
 
-    public Player?[] Players => new Player?[2] { Player1, Player2 };
+    public List<Player?> Players => new(){ Player1, Player2 };
 
     public Player? CurrentPlayer { get; set; }
+
+    public void NextPlayersTurn()
+    {
+        int index = Players.IndexOf(CurrentPlayer);
+        if (index >= 0)
+        {
+            index = (index + 1) % Players.Count;
+        }
+        else
+        {
+            index = 0;
+        }
+        CurrentPlayer = Players[index];
+    }
 }
