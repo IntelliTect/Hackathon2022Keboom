@@ -23,9 +23,9 @@ public static class BoardGenerator
                 var x = random.Next(board.Width);
                 var y = random.Next(board.Height);
 
-                if (!board.Grid[x, y].HasMine)
+                if (!board[x, y].HasMine)
                 {
-                    board.Grid[x, y].HasMine = true;
+                    board[x, y].HasMine = true;
                     break;
                 }
             }
@@ -38,7 +38,7 @@ public static class BoardGenerator
         {
             for(var y = 0; y < board.Height; y++)
             {
-                board.Grid[x, y].AdjacentMines = board.GetAdjacentCount(x, y);
+                board[x, y].AdjacentMines = board.GetAdjacentCount(x, y);
             }
         }
     }

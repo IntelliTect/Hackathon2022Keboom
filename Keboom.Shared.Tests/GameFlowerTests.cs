@@ -20,9 +20,9 @@ public class GameFlowerTests
 
         var gameFlower = new GameFlower(gameState, player);
 
-        gameFlower.TriggerSpace(gameState.Board!.Grid[0,0]);
+        gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
-        Assert.Equal(player.Id, gameState.Board.Grid[0, 0].ClaimedByPlayer);
+        Assert.Equal(player.Id, gameState.Board[0, 0].ClaimedByPlayer);
     }
 
     [Fact]
@@ -39,11 +39,11 @@ public class GameFlowerTests
 
         var gameFlower = new GameFlower(gameState, player);
 
-        gameState.Board!.Grid[0, 0].ClaimedByPlayer = player2Id;
+        gameState.Board![0, 0].ClaimedByPlayer = player2Id;
 
-        gameFlower.TriggerSpace(gameState.Board!.Grid[0, 0]);
+        gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
-        Assert.Equal(player2Id, gameState.Board.Grid[0, 0].ClaimedByPlayer);
+        Assert.Equal(player2Id, gameState.Board[0, 0].ClaimedByPlayer);
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public class GameFlowerTests
 
         var gameFlower = new GameFlower(gameState, player);
 
-        gameFlower.TriggerSpace(gameState.Board!.Grid[0, 0]);
+        gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
         Assert.Equal(1, player.Score);
     }
@@ -77,9 +77,9 @@ public class GameFlowerTests
 
         var player2Id = Guid.NewGuid();
 
-        gameState.Board!.Grid[0, 0].ClaimedByPlayer = player2Id;
+        gameState.Board![0, 0].ClaimedByPlayer = player2Id;
 
-        gameFlower.TriggerSpace(gameState.Board!.Grid[0, 0]);
+        gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
         Assert.Equal(0, player.Score);
     }
@@ -96,7 +96,7 @@ public class GameFlowerTests
 
         var gameFlower = new GameFlower(gameState, player);
 
-        var canContinue = gameFlower.TriggerSpace(gameState.Board!.Grid[0, 0]);
+        var canContinue = gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
         Assert.True(canContinue);
     }
@@ -113,25 +113,50 @@ public class GameFlowerTests
 
         var gameFlower = new GameFlower(gameState, player);
 
-        var canContinue = gameFlower.TriggerSpace(gameState.Board!.Grid[0, 0]);
+        var canContinue = gameFlower.TriggerSpace(gameState.Board![0, 0]);
 
         Assert.False(canContinue);
     }
 
-    private GameState CreateGameState(bool hasMines)
+    [Fact]
+    public void TriggerSapce_UnclaimedZero_ClaimsAdjacentNoMines()
+    {
+        var player = new Player
+        {
+            Id = Guid.NewGuid()
+        };
+
+        var gameState = CreateGameState(false, 3);
+        gameState.Board![1, 1].HasMine = true;
+
+        var gameFlower = new GameFlower(gameState, player);
+
+        gameFlower.TriggerSpace(gameState.Board![0, 0]);
+
+        Assert.Equal(player.Id, gameState.Board[0, 0].ClaimedByPlayer);
+        Assert.Equal(player.Id, gameState.Board[1, 0].ClaimedByPlayer);
+        Assert.Equal(player.Id, gameState.Board[0, 1].ClaimedByPlayer);
+        Assert.Equal(player.Id, gameState.Board[1, 2].ClaimedByPlayer);
+        Assert.Equal(player.Id, gameState.Board[2, 0].ClaimedByPlayer);
+        Assert.Equal(player.Id, gameState.Board[2, 1].ClaimedByPlayer);
+        Assert.Equal(player.Id, gameState.Board[2, 2].ClaimedByPlayer);
+        Assert.Null(gameState.Board[1, 1].ClaimedByPlayer);
+    }
+
+    private GameState CreateGameState(bool hasMines, int size = 2)
     {
         var gameState = new GameState();
-        var board = new Board(2, 2);
+        var board = new Board(size, size);
 
         for (var x = 0; x < board.Width; x++)
         {
             for (var y = 0; y < board.Height; y++)
             {
-                board.Grid[x, y].HasMine = hasMines;
+                board[x, y].HasMine = hasMines;
             }
         }
 
-        gameState.Board= board;
+        gameState.Board = board;
 
         return gameState;
     }

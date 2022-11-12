@@ -22,10 +22,10 @@ public class BoardTests
     public void GetAdjacentCount_4Adjacent_4()
     {
         var board = new Board(3, 3);
-        board.Grid[0, 0].HasMine = true;
-        board.Grid[1, 0].HasMine = true;
-        board.Grid[2, 0].HasMine = true;
-        board.Grid[0, 1].HasMine = true;
+        board[0, 0].HasMine = true;
+        board[1, 0].HasMine = true;
+        board[2, 0].HasMine = true;
+        board[0, 1].HasMine = true;
 
         var hasMine = board.GetAdjacentCount(1, 1);
 
@@ -36,9 +36,9 @@ public class BoardTests
     public void GetAdjacentCount_3Corner_3()
     {
         var board = new Board(3, 3);
-        board.Grid[1, 0].HasMine = true;
-        board.Grid[1, 1].HasMine = true;
-        board.Grid[0, 1].HasMine = true;
+        board[1, 0].HasMine = true;
+        board[1, 1].HasMine = true;
+        board[0, 1].HasMine = true;
 
         var hasMine = board.GetAdjacentCount(0, 0);
 
