@@ -1,7 +1,5 @@
 ﻿@using Keboom.Shared
 
-<h1>Minefield</h1>
-
 <div style="flex-grow: 4;">
     <div style="--columns: @GameState?.Board?.Width; --rows: @GameState?.Board?.Height" class="minefield">
         @for (int row = 0; row < GameState?.Board?.Height; row++)
@@ -17,16 +15,19 @@
                 }
                 else
                 {
-                    <button class="cell">
-                        @if (space.HasMine)
-                        {
+
+                    @if (space.HasMine)
+                    {
+                        <button class="cell">
                             <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag" />
-                        }
-                        else
-                        {
+                        </button>
+                    }
+                    else
+                    {
+                        <dic class="cell opened">
                             @space.AdjacentMines
-                        }
-                    </button>
+                        </dic>
+                    }
                 }
             }
         }
