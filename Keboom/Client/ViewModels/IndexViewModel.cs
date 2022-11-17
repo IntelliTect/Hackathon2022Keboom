@@ -19,17 +19,17 @@ public partial class IndexViewModel : ViewModelBase
     [ObservableProperty]
     private bool _JoinByLink = false;
 
-    
-    public IndexViewModel( HttpClient httpClient, NavigationManager navigation)
+
+    public IndexViewModel(HttpClient httpClient, NavigationManager navigation)
     {
-      
+
         HttpClient = httpClient;
         Navigation = navigation;
     }
 
     public override async Task OnInitializedAsync()
     {
-      
+
 
         Navigation.TryGetQueryString("gameName", out string? gameName);
         GameName = gameName;
@@ -38,16 +38,17 @@ public partial class IndexViewModel : ViewModelBase
         {
             JoinByLink = true;
         }
-        else {
-            CreateButtonVisible= true;
+        else
+        {
+            CreateButtonVisible = true;
         }
 
-       // Navigation.
-      
+        // Navigation.
+
         await base.OnInitializedAsync();
     }
 
-    
+
     public void NavigateToGameBoardAndJoinGame()
     {
         Navigation.NavigateTo($"gameboard?playerName={PlayerName}&{nameof(GameName)}={GameName}");
@@ -60,8 +61,11 @@ public partial class IndexViewModel : ViewModelBase
 
     public void JoinRandomGame()
     {
-        // get game name...
-        // Navigation.NavigateTo($"gameboard?playerName={PlayerName}&{nameof(GameName)}={GameName}");
+        Navigation.NavigateTo(Navigation.GetUriWithQueryParameters("gameboard", new Dictionary<string, object?>
+        {
+            {"playerName", PlayerName },
+            { "isPublic", true}
+        }));
     }
 
     public void NavigateToHowTo()

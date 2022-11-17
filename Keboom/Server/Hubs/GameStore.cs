@@ -6,7 +6,7 @@ namespace Keboom.Server.Hubs;
 public class GameStore : IGameStore
 {
     private Dictionary<string, GameState> Games { get; } = new();
-    
+
     private readonly Dictionary<string, string> PlayerIdToGameId = new();
 
     private readonly object newGameLock = new();
@@ -17,26 +17,29 @@ public class GameStore : IGameStore
         {
             RemoveFromGame(joinRequest.PlayerId ?? "");
             string gameName = joinRequest.GameName ?? "";
+
+            if (joinRequest.IsPublic)
+            {
+                var existingPublicGame = FindAvailablePublicGame();
+
+                if(existingPublicGame is not null)
+                {
+                    return JoinExistingGame(existingPublicGame, joinRequest);
+                }
+            }
+
             if (Games.ContainsKey(gameName))
             {
                 var existingGame = Games[gameName];
-
-                existingGame.GameStatus = GameStatus.InProgress;
-                AddPlayer(existingGame, new Player
-                {
-                    Id = joinRequest.PlayerId,
-                    Name = joinRequest.PlayerName,
-                    Color = PlayerColor.Green
-                });
-
-                return existingGame;
+                return JoinExistingGame(existingGame, joinRequest);
             }
 
             var newGame = new GameState
             {
                 Id = gameName,
                 Board = new Board(joinRequest.BoardWidth, joinRequest.BoardHeight, joinRequest.NumberOfMines),
-                GameStatus = GameStatus.WaitingForPlayersToJoin
+                GameStatus = GameStatus.WaitingForPlayersToJoin,
+                IsPublic = joinRequest.IsPublic
             };
 
             AddPlayer(newGame, new Player
@@ -53,7 +56,8 @@ public class GameStore : IGameStore
 
     public void RemoveFromGame(string playerId)
     {
-        if (!PlayerIdToGameId.ContainsKey(playerId)){
+        if (!PlayerIdToGameId.ContainsKey(playerId))
+        {
 
             return;
         }
@@ -93,6 +97,24 @@ public class GameStore : IGameStore
         {
             game.CurrentPlayer = player;
         }
+    }
+
+    private GameState JoinExistingGame(GameState existingGame, JoinGameRequest joinRequest)
+    {
+        existingGame.GameStatus = GameStatus.InProgress;
+        AddPlayer(existingGame, new Player
+        {
+            Id = joinRequest.PlayerId,
+            Name = joinRequest.PlayerName,
+            Color = PlayerColor.Green
+        });
+
+        return existingGame;
+    }
+
+    private GameState? FindAvailablePublicGame()
+    {
+        return Games.Where(x => x.Value.IsPublic && x.Value.Players.Count == 1).FirstOrDefault().Value;
     }
 }
 

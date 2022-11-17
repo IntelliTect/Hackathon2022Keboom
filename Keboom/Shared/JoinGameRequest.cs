@@ -6,6 +6,8 @@ public class JoinGameRequest
     public string? PlayerId { get; set; }
     public string? PlayerName { get; set; }
 
+    public bool IsPublic { get; set; }
+
     public int BoardWidth { get; set; } = 8;
     public int BoardHeight { get; set;} = 8;
 

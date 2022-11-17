@@ -38,10 +38,14 @@ public partial class GameBoardViewModel : ViewModelBase
 
         Navigation.TryGetQueryString("gameName", out string? gameName);
         Navigation.TryGetQueryString("playerName", out string? playerName);
+        Navigation.TryGetQueryString("isPublic", out bool isPublic);
+
+        var isPublicString = isPublic ? "public" : "private";
+        Console.WriteLine($"Creating {isPublicString} game");
 
         if (gameName is null)
         {
-             gameName = Guid.NewGuid().ToString().Substring(0, 4);
+            gameName = Guid.NewGuid().ToString().Substring(0, 4);
         }
 
         if (playerName is null)
@@ -62,16 +66,20 @@ public partial class GameBoardViewModel : ViewModelBase
             BoardHeight = 8,
             NumberOfMines = 15,
             PlayerId = ClientPlayer.Id,
-            PlayerName = playerName
+            PlayerName = playerName,
+            IsPublic = isPublic,
         };
 
         using var response = await HttpClient.PostAsJsonAsync("/game", joinGameRequest);
 
         GameState = await response.Content.ReadFromJsonAsync<GameState>();
 
-        await ServerSideMethods.JoinGame(gameName);
+        if (GameState is not null)
+        {
+            await ServerSideMethods.JoinGame(GameState.Id);
 
-        GameInviteUrl = $"{Navigation.BaseUri}?gamename={gameName}";
+            GameInviteUrl = $"{Navigation.BaseUri}?gamename={GameState.Id}";
+        }
 
         await base.OnInitializedAsync();
     }

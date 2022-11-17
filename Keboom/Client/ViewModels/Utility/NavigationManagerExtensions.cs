@@ -29,6 +29,12 @@ public static class NavigationManagerExtensions
                 value = (T)(object)valueAsDecimal;
                 return true;
             }
+
+            if (typeof(T) == typeof(bool) && bool.TryParse(valueFromQueryString, out var valueAsBool))
+            {
+                value = (T)(object)valueAsBool;
+                return true;
+            }
         }
 
         value = default;

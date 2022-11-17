@@ -10,6 +10,8 @@ public class GameState
 
     public List<Player> Players { get; init; } = new();
 
+    public bool IsPublic { get; set; }
+
     public Player? CurrentPlayer
     {
         get
