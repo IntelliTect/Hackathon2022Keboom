@@ -8,6 +8,10 @@ public partial class GameOverViewModel : ViewModelBase
     public GameOverViewModel(NavigationManager navigationManager)
     {
         Navigation = navigationManager;
+        if (Navigation.TryGetQueryString(nameof(CurrentPlayerName), out string? currentPlayerName))
+        {
+            CurrentPlayerName = currentPlayerName;
+        }
     }
 
     private NavigationManager Navigation { get; }
