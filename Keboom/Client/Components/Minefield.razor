@@ -13,15 +13,24 @@
                     if (space.ClaimedByPlayer is null)
                     {
                         <button class="cell" disabled="@(ViewModel?.GameState?.CurrentPlayerId != ClientPlayer?.Id)"
-                                @onclick="() => OnOpenCellClick(space)">
+                @onclick="() => OnOpenCellClick(space)">
                         </button>
                     }
                     else
                     {
                         @if (space.HasMine)
                         {
+
                             <button class="cell">
-                                <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag" />
+                                @if (ViewModel?.MineOpenedByPlayer != null &&
+                               (space.X == ViewModel?.MineOpenedByPlayer.X && space.Y == ViewModel.MineOpenedByPlayer.Y))
+                                {
+                                    <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag" class="animateFlag" />
+                                }
+                                else
+                                {
+                                    <img src="@GetPlayerFlag(space.ClaimedByPlayer)" alt="flag" />
+                                }
                             </button>
                         }
                         else
