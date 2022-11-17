@@ -7,7 +7,8 @@ public class GameStore : IGameStore
 {
     private Dictionary<string, GameState> Games { get; } = new();
 
-    private readonly Dictionary<string, string> PlayerIdToGameId = new();
+    private readonly Dictionary<string, string> PlayerConnectionIdToGameId = new();
+    private readonly Dictionary<string, string> PlayerIdToPlayerConnectionId = new();
 
     private readonly object newGameLock = new();
 
@@ -24,6 +25,7 @@ public class GameStore : IGameStore
 
                 if(existingPublicGame is not null)
                 {
+
                     return JoinExistingGame(existingPublicGame, joinRequest);
                 }
             }
@@ -56,14 +58,14 @@ public class GameStore : IGameStore
 
     public void RemoveFromGame(string playerId)
     {
-        if (!PlayerIdToGameId.ContainsKey(playerId))
+        if (!PlayerConnectionIdToGameId.ContainsKey(playerId))
         {
 
             return;
         }
 
-        string gameId = PlayerIdToGameId[playerId];
-        PlayerIdToGameId.Remove(playerId);
+        string gameId = PlayerConnectionIdToGameId[playerId];
+        PlayerConnectionIdToGameId.Remove(playerId);
 
         if (gameId is not null && Games.ContainsKey(gameId))
         {
@@ -75,7 +77,7 @@ public class GameStore : IGameStore
 
     public string? GetGame(string playerId)
     {
-        PlayerIdToGameId.TryGetValue(playerId, out string? game);
+        PlayerConnectionIdToGameId.TryGetValue(playerId, out string? game);
         return game;
     }
 
@@ -114,7 +116,14 @@ public class GameStore : IGameStore
 
     private GameState? FindAvailablePublicGame()
     {
-        return Games.Where(x => x.Value.IsPublic && x.Value.Players.Count == 1).FirstOrDefault().Value;
+        return Games.FirstOrDefault(x => x.Value.IsPublic && x.Value.Players.Count == 1).Value;
+    }
+
+    public void AddPlayerConnectionID(string gameId, string playerId, string playerConnectionId) {
+        PlayerIdToPlayerConnectionId.Remove(playerId);
+        PlayerIdToPlayerConnectionId.Add(playerId, playerConnectionId);
+        PlayerConnectionIdToGameId.Remove(playerConnectionId);
+        PlayerConnectionIdToGameId.Add(playerConnectionId, gameId);
     }
 }
 
@@ -123,4 +132,5 @@ public interface IGameStore
     string? GetGame(string playerId);
     void RemoveFromGame(string playerId);
     GameState JoinGame(JoinGameRequest joinRequest);
+    void AddPlayerConnectionID(string gameId, string playerId, string playerConnectionId);
 }

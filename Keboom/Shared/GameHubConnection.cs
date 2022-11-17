@@ -43,7 +43,7 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
 
     public event EventHandler? ConnectionLost;
     public event EventHandler? Connected;
-    public event EventHandler<EventArgs<string>>? PlayerLeft;
+    public event EventHandler<EventArgs>? PlayerLeft;
     public event EventHandler<EventArgs<GameState>>? GameStateUpdated;
 
     public async Task Open()
@@ -79,9 +79,9 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
 
     private void RegisterEvents()
     {
-        HubConnection.On<string>(
+        HubConnection.On(
             nameof(IGameHubClientSideMethods.PlayerLeft),
-            (playerId) => PlayerLeft?.Invoke(this, new EventArgs<string>(playerId))
+            () => PlayerLeft?.Invoke(this, new EventArgs())
         );
 
         HubConnection.On<GameState>(
@@ -92,5 +92,5 @@ public class GameHubConnection : IGameHubServerSideMethods, IGameHubClientSideMe
 
     public Task GameState(GameState gameState) => HubConnection.InvokeAsync(nameof(IGameHubServerSideMethods.GameState), gameState);
     public Task LeaveGame() => HubConnection.InvokeAsync(nameof(IGameHubServerSideMethods.LeaveGame));
-    public Task JoinGame(string gameId) => HubConnection.InvokeAsync(nameof(IGameHubServerSideMethods.JoinGame), gameId);
+    public Task JoinGame(string gameId, string playerId) => HubConnection.InvokeAsync(nameof(IGameHubServerSideMethods.JoinGame), gameId, playerId);
 }

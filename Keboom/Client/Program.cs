@@ -16,6 +16,7 @@ builder.Services.AddTransient<ScoreBoardViewModel>();
 builder.Services.AddTransient<MinefieldViewModel>();
 builder.Services.AddTransient<IndexViewModel>();
 builder.Services.AddTransient<GameOverViewModel>();
+builder.Services.AddTransient<OpponentLeftViewModel>();
 
 builder.Services.AddSingleton(x=>new GameHubConnection(x.GetRequiredService<NavigationManager>().ToAbsoluteUri("/gamehub").ToString()));
 

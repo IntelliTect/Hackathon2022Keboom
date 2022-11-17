@@ -35,6 +35,8 @@ public partial class GameBoardViewModel : ViewModelBase
     {
         GameEvents.GameStateUpdated -= OnGameStateUpdated;
         GameEvents.GameStateUpdated += OnGameStateUpdated;
+        GameEvents.PlayerLeft -= OnPlayerLeft;
+        GameEvents.PlayerLeft += OnPlayerLeft;
 
         Navigation.TryGetQueryString("gameName", out string? gameName);
         Navigation.TryGetQueryString("playerName", out string? playerName);
@@ -76,7 +78,7 @@ public partial class GameBoardViewModel : ViewModelBase
 
         if (GameState is not null)
         {
-            await ServerSideMethods.JoinGame(GameState.Id);
+            await ServerSideMethods.JoinGame(GameState.Id,ClientPlayer.Id);
 
             GameInviteUrl = $"{Navigation.BaseUri}?gamename={GameState.Id}";
         }
@@ -93,5 +95,13 @@ public partial class GameBoardViewModel : ViewModelBase
     public async Task CopyGameLinkToClipboard()
     {
         await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", GameInviteUrl);
+    }
+
+    private void OnPlayerLeft(object? sender, EventArgs e)
+    {
+        Navigation.NavigateTo(Navigation.GetUriWithQueryParameters("/OpponentLeft", new Dictionary<string, object?>
+        {
+            {"playerName", ClientPlayer?.Name },
+        }));
     }
 }

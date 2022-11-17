@@ -36,6 +36,13 @@ public partial class IndexViewModel : ViewModelBase
     public override async Task OnInitializedAsync()
     {
         Navigation.TryGetQueryString("gameName", out string? gameName);
+        Navigation.TryGetQueryString("playerName", out string? playerName);
+
+        if (playerName is not null) {
+
+            PlayerName= playerName;
+        }
+
         GameName = gameName;
 
         if (gameName is not null)

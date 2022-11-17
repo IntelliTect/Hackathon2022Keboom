@@ -27,15 +27,16 @@ public class GameHub : Hub, IGameHubServerSideMethods
 
         if (game is not null)
         {
-            await Clients.Group(game).SendAsync(nameof(IGameHubClientSideMethods.PlayerLeft), playerId);
+            await Clients.Group(game).SendAsync(nameof(IGameHubClientSideMethods.PlayerLeft));
         }
 
         return base.OnDisconnectedAsync(exception);
     }
 
     [HubMethodName(nameof(JoinGame))]
-    public async Task JoinGame(string gameId)
+    public async Task JoinGame(string gameId, string playerId)
     {
+        gameStore.AddPlayerConnectionID(gameId, playerId, Context.ConnectionId);
         await Groups.AddToGroupAsync(
                             Context.ConnectionId,
                             gameId
