@@ -2,6 +2,13 @@
 
 namespace Keboom.Client.ViewModels;
 
+public enum NewGameMode
+{
+    None,
+    JoinPublicGame,
+    JoinPrivateGame
+}
+
 public partial class IndexViewModel : ViewModelBase
 {
     public HttpClient HttpClient { get; }
@@ -15,48 +22,38 @@ public partial class IndexViewModel : ViewModelBase
 
     [ObservableProperty]
     private bool _CreateButtonVisible = false;
-
+    
     [ObservableProperty]
-    private bool _JoinByLink = false;
+    private NewGameMode _NewGameMode = NewGameMode.JoinPublicGame;
 
 
     public IndexViewModel(HttpClient httpClient, NavigationManager navigation)
     {
-
         HttpClient = httpClient;
         Navigation = navigation;
     }
 
     public override async Task OnInitializedAsync()
     {
-
-
         Navigation.TryGetQueryString("gameName", out string? gameName);
         GameName = gameName;
 
         if (gameName is not null)
         {
-            JoinByLink = true;
+            NewGameMode = NewGameMode.JoinPrivateGame;
         }
         else
         {
+            GameName = Guid.NewGuid().ToString()[0..6];
             CreateButtonVisible = true;
         }
-
-        // Navigation.
 
         await base.OnInitializedAsync();
     }
 
-
     public void NavigateToGameBoardAndJoinGame()
     {
         Navigation.NavigateTo($"gameboard?playerName={PlayerName}&{nameof(GameName)}={GameName}");
-    }
-
-    public void NavigateToGameBoardAndCreateGame()
-    {
-        Navigation.NavigateTo($"gameboard?playerName={PlayerName}");
     }
 
     public void JoinRandomGame()

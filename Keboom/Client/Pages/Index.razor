@@ -10,25 +10,27 @@
                 <div class="title-bar-text">Game Options</div>
             </div>
             <div class="window-body">
-
-
+                
                 <div class="field-row-stacked">
-                    <label for="text18">Your Name</label>
-                    <InputText @bind-Value="ViewModel.PlayerName"></InputText>
+                    <label for="player-name">Your Name</label>
+                    <InputText id="player-name" @bind-Value="ViewModel.PlayerName"></InputText>
                 </div>
                 <div class="field-row-stacked">
-
-                    <button @onclick="ViewModel.NavigateToGameBoardAndCreateGame">
-                        Create Game
-                    </button>
+                    <InputRadioGroup @bind-Value="@ViewModel.NewGameMode" Name="game-mode">
+                        <InputRadio Value="@NewGameMode.JoinPublicGame" Name="game-mode" id="gameModeJoinPublic" />
+                        <label for="gameModeJoinPublic">Join Game</label>
+                        <InputRadio Value="@NewGameMode.JoinPrivateGame" Name="game-mode" id="gameModeJoinPrivate" />
+                        <label for="gameModeJoinPrivate">Private Game</label>
+                    </InputRadioGroup>
+                </div>
+                <div class="field-row-stacked" style="@(ViewModel.NewGameMode is NewGameMode.JoinPublicGame ? "" : "display:none")">
                     <button @onclick="ViewModel.JoinRandomGame">
-                        Join Random Game
+                        Join Game
                     </button>
-
                 </div>
-                <div class="field-row-stacked">
-                    <label for="text18">Game Code</label>
-                    <InputText @bind-Value="ViewModel.GameName"></InputText>
+                <div class="field-row-stacked" style="@(ViewModel.NewGameMode is  NewGameMode.JoinPrivateGame ? "" : "display:none")">
+                    <label for="game-name">Game Code</label>
+                    <InputText id="game-name" @bind-Value="ViewModel.GameName"></InputText>
 
                     <button @onclick="ViewModel.NavigateToGameBoardAndJoinGame">
                         Join Game
