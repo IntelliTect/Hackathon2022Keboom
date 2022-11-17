@@ -17,7 +17,7 @@ public partial class IndexViewModel : ViewModelBase
     private bool _CreateButtonVisible = false;
 
     [ObservableProperty]
-    private bool _JoinButtonVisible = false;
+    private bool _JoinByLink = false;
 
     
     public IndexViewModel( HttpClient httpClient, NavigationManager navigation)
@@ -36,7 +36,7 @@ public partial class IndexViewModel : ViewModelBase
 
         if (gameName is not null)
         {
-            JoinButtonVisible = true;
+            JoinByLink = true;
         }
         else {
             CreateButtonVisible= true;
@@ -56,6 +56,17 @@ public partial class IndexViewModel : ViewModelBase
     public void NavigateToGameBoardAndCreateGame()
     {
         Navigation.NavigateTo($"gameboard?playerName={PlayerName}");
+    }
+
+    public void JoinRandomGame()
+    {
+        // get game name...
+        // Navigation.NavigateTo($"gameboard?playerName={PlayerName}&{nameof(GameName)}={GameName}");
+    }
+
+    public void NavigateToHowTo()
+    {
+        Navigation.NavigateTo($"/HowtoPlay");
     }
 
 

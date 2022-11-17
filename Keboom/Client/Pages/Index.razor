@@ -11,31 +11,43 @@
             </div>
             <div class="window-body">
 
-                @if (ViewModel.JoinButtonVisible)
-                {
-                    <div class="field-row-stacked" style="width: 200px">
-                        <label for="text18">Game Code</label>
-                        <InputText @bind-Value="ViewModel.GameName"></InputText>
-                    </div>
-                }
+
                 <div class="field-row-stacked" style="width: 200px">
                     <label for="text18">Your Name</label>
                     <InputText @bind-Value="ViewModel.PlayerName"></InputText>
                 </div>
-                <div class="field-row-stacked" style="width: 200px;">
-                    @if (ViewModel.CreateButtonVisible)
-                    {
-                        <button class="btn btn-primary" visible="@ViewModel.CreateButtonVisible" @onclick="ViewModel.NavigateToGameBoardAndCreateGame">
-                            Create Game
-                        </button>
-                    }
-                    @if (ViewModel.JoinButtonVisible)
-                    {
-                        <button class="btn btn-primary" visible="@ViewModel.JoinButtonVisible" @onclick="ViewModel.NavigateToGameBoardAndJoinGame">
-                            Join Game
-                        </button>
-                    }
+                <div class="field-row-stacked" style="width: 150px;">
+
+                    <button @onclick="ViewModel.NavigateToGameBoardAndCreateGame">
+                        Create Game
+                    </button>
+                    <button @onclick="ViewModel.JoinRandomGame">
+                        Join Random Game
+                    </button>
+
                 </div>
+                <div class="field-row-stacked" style="width: 200px">
+                    <label for="text18">Game Code</label>
+                    <InputText @bind-Value="ViewModel.GameName"></InputText>
+
+                    <button @onclick="ViewModel.NavigateToGameBoardAndJoinGame">
+                        Join Game
+                    </button>
+                </div>
+
+
+                <br />
+                <br />
+
+                <div class="field-row-stacked" style="width: 200px">
+                    
+                
+
+                    <button @onclick="ViewModel.NavigateToHowTo">
+                        What is Keboom?
+                    </button>
+                </div>
+
 
             </div>
         </div>
