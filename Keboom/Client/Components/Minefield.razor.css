@@ -20,6 +20,12 @@
     text-align: center;
 }
 
+button.cell img {
+    width: 70%;
+    height: auto;
+}
+
+
 .opened {
     border-style: groove;
 }
@@ -27,11 +33,4 @@
 button.cell {
     min-height: unset;
     min-width: unset;
-}
-
-@media screen and (max-height: 600px) {
-    button.cell img {
-        max-height: 24px;
-        max-width: 24px;
-    }
 }
