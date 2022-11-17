@@ -1,4 +1,5 @@
 ﻿using Keboom.Client.Converters;
+using Keboom.Client.Pages;
 using Microsoft.AspNetCore.Components;
 
 namespace Keboom.Client.Components;
@@ -17,7 +18,7 @@ public partial class Minefield
 
     protected override void OnInitialized()
     {
-        ViewModel.DetonateMines = EndGame;
+        ViewModel.OnGameOver = EndGame;
         base.OnInitialized();
     }
 
@@ -34,8 +35,9 @@ public partial class Minefield
         var uri = Navigation.GetUriWithQueryParameters("/GameOver",
             new Dictionary<string, object?>()
             {
-                { "Name", GameState!.CurrentPlayer!.Name },
-                { "Score", GameState.CurrentPlayer.Score }
+                { nameof(GameOver.WinningPlayerName), GameState!.CurrentPlayer!.Name },
+                { nameof(GameOver.Score), GameState.CurrentPlayer.Score },
+                { nameof(GameOver.CurrentPlayerName), ClientPlayer?.Name }
             });
         Navigation.NavigateTo(uri);
     }

@@ -40,11 +40,10 @@ public class GameEngine
 
     private void UpdateGameStatus()
     {
-        if (Player.Score > Math.Floor(GameState.Board?.NumberOfMines/2.0 ?? Int32.MaxValue))
+        if (Player.Score > Math.Floor(GameState.Board?.NumberOfMines/2.0 ?? int.MaxValue))
         {
             GameState.GameStatus = GameStatus.GameOver;
         }
-
     }
 
     public void NextPlayersTurn()

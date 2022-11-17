@@ -2,14 +2,15 @@
 
 public partial class MinefieldViewModel : ViewModelBase
 {
-    public MinefieldViewModel(IGameHubServerSideMethods hubMethods) {
+    public MinefieldViewModel(IGameHubServerSideMethods hubMethods)
+    {
         HubMethods = hubMethods;
     }
 
     [ObservableProperty]
     private GameState? _gameState;
 
-    public Action? DetonateMines { get; set; }
+    public Action? OnGameOver { get; set; }
 
     public IGameHubServerSideMethods HubMethods { get; }
 
@@ -22,9 +23,9 @@ public partial class MinefieldViewModel : ViewModelBase
             GameEngine gameEngine = new(gameState, currentPlayer);
             if (gameEngine.TriggerSpace(space))
             {
-                if (gameState.GameStatus == GameStatus.GameOver && DetonateMines is {})
+                if (gameState.GameStatus == GameStatus.GameOver)
                 {
-                    DetonateMines();
+                    OnGameOver?.Invoke();
                 }
                 NotifyStateChanged();
             }
@@ -39,9 +40,9 @@ public partial class MinefieldViewModel : ViewModelBase
 
     partial void OnGameStateChanged(GameState? value)
     {
-        if (value?.GameStatus == GameStatus.GameOver && DetonateMines is { })
+        if (value?.GameStatus == GameStatus.GameOver)
         {
-            DetonateMines();
+            OnGameOver?.Invoke();
         }
     }
 }

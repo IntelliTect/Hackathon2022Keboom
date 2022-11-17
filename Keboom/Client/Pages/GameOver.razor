@@ -1,29 +1,28 @@
-﻿@page "/GameOver"
-@inject NavigationManager Navigation
+﻿@inherits ComponentBase<GameOverViewModel>
+@page "/GameOver"
 <PageTitle>Game Over</PageTitle>
 
-<p>@Name has won!</p>
+<p>@WinningPlayerName has won!</p>
 <p>With a score of @Score</p>
 <div>
-    <button value="submit" @onclick="() => NewGame()">New Game</button>
-    <button value="reset" @onclick="() => QuitGame()">Too Much Danger</button>
+    <button value="submit" @onclick="() => ViewModel.NewGameCommand.Execute(null)">New Game</button>
+    <button value="reset" @onclick="() => ViewModel.QuitGameCommand.Execute(null)">Too Much Danger</button>
 </div>
 
 @code {
     [Parameter]
     [SupplyParameterFromQuery]
-    public string? Name { get; set; }
+    public string? WinningPlayerName { get; set; }
 
     [Parameter]
     [SupplyParameterFromQuery]
     public int? Score { get; set; }
 
-    private void NewGame()
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? CurrentPlayerName
     {
-        Navigation.NavigateTo($"/GameBoard?playerName={Name}");
-    }
-    private void QuitGame()
-    {
-        Navigation.NavigateTo("/AboutUs");
+        get => ViewModel.CurrentPlayerName;
+        set => ViewModel.CurrentPlayerName = value;
     }
 }

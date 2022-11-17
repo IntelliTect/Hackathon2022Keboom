@@ -112,7 +112,7 @@ public class GameEngineTests
         Assert.Null(gameState.Board[1, 2].ClaimedByPlayer);
         Assert.Null(gameState.Board[2, 2].ClaimedByPlayer);
     }
-
+    
     [Fact]
     public void NextPlayersTurn_ShouldSetCurrentPlayerToPlayer2_WhenCurrentPlayerIsPlayer1()
     {

@@ -17,7 +17,12 @@ public partial class GameBoardViewModel : ViewModelBase
     [ObservableProperty]
     private string? _GameInviteUrl;
 
-    public GameBoardViewModel(IGameHubClientSideMethods hubEvents, IGameHubServerSideMethods hubMethods, HttpClient httpClient, NavigationManager navigation, IJSRuntime jSRuntime)
+    public GameBoardViewModel(
+        IGameHubClientSideMethods hubEvents,
+        IGameHubServerSideMethods hubMethods,
+        HttpClient httpClient,
+        NavigationManager navigation,
+        IJSRuntime jSRuntime)
     {
         GameEvents = hubEvents;
         ServerSideMethods = hubMethods;
@@ -73,7 +78,6 @@ public partial class GameBoardViewModel : ViewModelBase
 
     private void OnGameStateUpdated(object? sender, EventArgs<GameState> e)
     {
-        //Console.WriteLine("Got new game state");
         GameState = e.Value;
         NotifyStateChanged();
     }
